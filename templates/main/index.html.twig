@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Socresto{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="jumbotron col-lg me-4 jumbo-height rounded">
+                <div class="container d-flex flex-column">
+                    <h2 class="title-accueil">Températures</h2>
+                    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary mb-2 btn-lg btn-accueil">Prise des températures</button></a>
+                </div>
+            </div>
+
+
+            <div class="jumbotron col-lg me-4 jumbo-height rounded">
+                <div class="container d-flex flex-column">
+                    <h2 class="title-accueil">Traçabilité</h2>
+                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-warning mb-4 btn-lg btn-accueil">Contrôle à la réception</button></a>
+                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-warning mb-4 btn-lg btn-accueil">Etiquettage</button></a>
+                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-warning btn-lg btn-accueil">Contrôle Labocéa</button></a>
+                </div>
+            </div>
+
+            <div class="jumbotron col-lg jumbo-height rounded">
+                <div class="container d-flex flex-column">
+                    <h2 class="title-accueil">Hygiène</h2>
+                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-success mb-2 btn-lg btn-accueil">Plan de nettoyage</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

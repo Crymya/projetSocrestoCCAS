@@ -1,0 +1,97 @@
+{{ form_start(form) }}
+
+{% if app.request.attributes.get('_route') == 'app_temperature_new' %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <br>
+            {{ form_row(form.editeur) }}
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-center">
+
+        <div class="card me-3 border-primary">
+            <div class="card-header bg-primary text-light">
+                {{ frigo1.nom }}
+            </div>
+            <div class="card-body">
+                <p>
+                    {{ form_row(form.temp1) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="card me-3 border-primary">
+            <div class="card-header bg-primary text-light">
+                {{ frigo2.nom }}
+            </div>
+            <div class="card-body">
+                <p>
+                    {{ form_row(form.temp2) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="card me-3 border-primary">
+            <div class="card-header bg-primary text-light bg-primary text-light">
+                {{ congelateur1.nom }}
+            </div>
+            <div class="card-body">
+                <p>
+                    {{ form_row(form.temp3) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="card me-3 border-primary">
+            <div class="card-header bg-primary text-light">
+                {{ congelateur2.nom }}
+            </div>
+            <div class="card-body">
+                <p>
+                    {{ form_row(form.temp4) }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            {{ form_row(form.editeur) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            {{ form_row(form.valeur) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            {{ form_row(form.dateControle) }}
+        </div>
+    </div>
+
+{% endif %}
+    <div class="row mt-5">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="d-flex flex-row justify-content-between">
+                <div>
+                    <a class="text-decoration-none text-light" href="{{ path('app_temperature_index') }}"><button type="button" class="btn btn-primary me-2">Relevé des températures</button></a>
+                </div>
+                <div>
+                    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary me-2">Annuler</button></a>
+                    <button class="btn bg-primary text-light" name="btnsave" value="save" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+{{ form_end(form) }}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relevé des températures | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Relevé de températures</h2>
+
+    <div class="border border-secondary rounded pt-5 ps-5 pe-5 mb-5">
+        <h5 class="mb-3 ">Recherche :</h5>
+        {{ form_start(form) }}
+        <div class="d-flex justify-content-between">
+            <div class="me-5">
+                <h6>Matériel :</h6>
+                {{ form_row(form.materiels) }}
+            </div>
+            <div class="flex-grow-1 d-inline-block">
+                {{ form_row(form.dateDebut) }}
+                {{ form_row(form.dateFin) }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Filtrer</button>
+
+        {{ form_end(form) }}
+    </div>
+
+    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th class="text-center">Matériel</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">Utilisateur</th>
+                <th class="text-center">Température</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for temperature in temperatures %}
+            <tr>
+                <td class="text-center">{{ temperature.materiel }}</td>
+                <td class="text-center">{{ temperature.dateControle ? temperature.dateControle|date('d-m-Y H:i') : '' }}</td>
+                <td class="text-center">{{ temperature.editeur }}</td>
+                <td class="text-center">{{ temperature.valeur }}°</td>
+
+                <td class="text-center">
+                    <a class="text-decoration-none text-light" href="{{ path('app_temperature_edit', {'id': temperature.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune température enregistrée !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+{% endblock %}
