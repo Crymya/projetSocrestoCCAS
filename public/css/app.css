@@ -1,0 +1,33 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.jumbo-height {
+    height: 600px;
+}
+
+.btn-accueil {
+    height: 130px;
+    width: 100%;
+    box-shadow: 3px 3px 5px black;
+    display: block;
+    color : #ffffff !important;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-left: 20px;
+    font-style: italic;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-style: italic;
+}
+
+.jumbotron {
+    background-color: #f8f9fa;
+}
