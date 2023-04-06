@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etiquette index{% endblock %}
+
+{% block body %}
+    <h1>Etiquette index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomProduit</th>
+                <th>Temperature</th>
+                <th>JourUtilise</th>
+                <th>Dlc</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etiquette in etiquettes %}
+            <tr>
+                <td>{{ etiquette.id }}</td>
+                <td>{{ etiquette.nomProduit }}</td>
+                <td>{{ etiquette.temperature }}</td>
+                <td>{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('Y-m-d') : '' }}</td>
+                <td>{{ etiquette.dlc ? etiquette.dlc|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}">show</a>
+                    <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etiquette_new') }}">Create new</a>
+{% endblock %}
