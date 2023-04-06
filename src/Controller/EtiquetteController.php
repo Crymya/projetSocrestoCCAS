@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Document;
 use App\Entity\Etiquette;
 use App\Form\EtiquetteType;
 use App\Repository\EtiquetteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,21 +24,44 @@ class EtiquetteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_etiquette_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EtiquetteRepository $etiquetteRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $etiquette = new Etiquette();
         $form = $this->createForm(EtiquetteType::class, $etiquette);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $etiquetteRepository->save($etiquette, true);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $documents = $form->get('documents')->getData();
+            $size = count($documents);
 
-            return $this->redirectToRoute('app_etiquette_index', [], Response::HTTP_SEE_OTHER);
+            if (!$documents && ($size === 0))
+            {
+                $this->addFlash('warning', 'Photo obligatoire');
+            } else {
+                if ($documents) {
+                    foreach ($documents as $document)
+                    {
+                        $filename = uniqid() . '.' . $document->guessExtension();
+                        $document->move($this->getParameter('documents_directory'), $filename);
+
+                        $document = new Document();
+                        $document->setNomStockage($filename);
+                        $etiquette->addDocument($document);
+                    }
+                }
+                $entityManager->persist($etiquette);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Etiquette ajoutée avec succès !');
+                return $this->redirectToRoute('app_etiquette_new', [], Response::HTTP_SEE_OTHER);
+            }
+
         }
 
-        return $this->renderForm('etiquette/new.html.twig', [
+        return $this->render('etiquette/new.html.twig', [
             'etiquette' => $etiquette,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -54,15 +79,28 @@ class EtiquetteController extends AbstractController
         $form = $this->createForm(EtiquetteType::class, $etiquette);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $documents = $form->get('documents')->getData();
+
+            foreach ($documents as $document)
+            {
+                $filename = uniqid() . '.' . $document->guessExtension();
+                $document->move($this->getParameter('documents_directory'), $filename);
+
+                $document = new Document();
+                $document->setNomStockage($filename);
+                $etiquette->addDocument($document);
+            }
+
             $etiquetteRepository->save($etiquette, true);
 
             return $this->redirectToRoute('app_etiquette_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('etiquette/edit.html.twig', [
+        return $this->render('etiquette/edit.html.twig', [
             'etiquette' => $etiquette,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

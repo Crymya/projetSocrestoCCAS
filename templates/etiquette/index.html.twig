@@ -1,41 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Etiquette index{% endblock %}
+{% block title %}Relevé des étiquettes | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Etiquette index</h1>
+    <h2>Relevé des étiquettes</h2>
 
-    <table class="table">
+    {% if etiquettes|length > 10 %}
+    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% endif %}
+
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>NomProduit</th>
-                <th>Temperature</th>
-                <th>JourUtilise</th>
-                <th>Dlc</th>
-                <th>actions</th>
+                <th class="text-center">NomProduit</th>
+                <th class="text-center">Temperature</th>
+                <th class="text-center">Date d'utilisation du produit</th>
+                <th class="text-center">Date limite de consommation</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for etiquette in etiquettes %}
             <tr>
-                <td>{{ etiquette.id }}</td>
-                <td>{{ etiquette.nomProduit }}</td>
-                <td>{{ etiquette.temperature }}</td>
-                <td>{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('Y-m-d') : '' }}</td>
-                <td>{{ etiquette.dlc ? etiquette.dlc|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}">show</a>
-                    <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}">edit</a>
+                <td class="text-center">{{ etiquette.nomProduit }}</td>
+                <td class="text-center">{{ etiquette.temperature }}</td>
+                <td class="text-center">{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('d-m-Y') : '' }}</td>
+                <td class="text-center">{{ etiquette.dlc ? etiquette.dlc|date('d-m-Y') : '' }}</td>
+                <td class="text-center">
+                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Voir</button></a>
+                    <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucune étiquette enregistrée !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_etiquette_new') }}">Create new</a>
+    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+
 {% endblock %}

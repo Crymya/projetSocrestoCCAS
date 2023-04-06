@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Etiquette{% endblock %}
+{% block title %}Nouvelle étiquette | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Create new Etiquette</h1>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Ajout d'une nouvelle étiquette</h2>
+        </div>
+    </div>
 
     {{ include('etiquette/_form.html.twig') }}
 
-    <a href="{{ path('app_etiquette_index') }}">back to list</a>
 {% endblock %}

@@ -1,38 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Etiquette{% endblock %}
+{% block title %}Etiquette | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Etiquette</h1>
+    <h2>Aperçu de l'étiquette</h2>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ etiquette.id }}</td>
-            </tr>
-            <tr>
-                <th>NomProduit</th>
-                <td>{{ etiquette.nomProduit }}</td>
-            </tr>
-            <tr>
-                <th>Temperature</th>
-                <td>{{ etiquette.temperature }}</td>
-            </tr>
-            <tr>
-                <th>JourUtilise</th>
-                <td>{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Dlc</th>
-                <td>{{ etiquette.dlc ? etiquette.dlc|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th>Utilisateur</th>
+                    <td>{{ etiquette.editeur }}</td>
+                </tr>
+                <tr>
+                    <th>Nom du produit</th>
+                    <td>{{ etiquette.nomProduit }}</td>
+                </tr>
+                <tr>
+                    <th>Température</th>
+                    <td>{{ etiquette.temperature }}</td>
+                </tr>
+                <tr>
+                    <th>Date d'utilisation du produit</th>
+                    <td>{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('m-d-Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date limite de ocnsommation</th>
+                    <td>{{ etiquette.dlc ? etiquette.dlc|date('m-d-Y') : '' }}</td>
+                </tr>
+                <tr>
+                    {% if etiquette.documents | length > 1 %}
+                    <th>Images</th>
+                    {% else %}
+                    <th>Image</th>
+                    {% endif %}
+                    {% for image in etiquette.documents %}
+                        <td class="d-flex flex-column">
+                            <img src="{{ asset('uploads/' ~ image.nomStockage) }}" alt="Miniature" width="200">
+                        </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
 
-    <a href="{{ path('app_etiquette_index') }}">back to list</a>
+            <a class="text-decoration-none text-light me-2" href="{{ path('app_etiquette_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+            <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
 
-    <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}">edit</a>
+        </div>
+    </div>
 
-    {{ include('etiquette/_delete_form.html.twig') }}
+
+
+
+    {#{{ include('etiquette/_delete_form.html.twig') }}#}
 {% endblock %}
