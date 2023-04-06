@@ -27,9 +27,13 @@ class Editeur
     #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Temperature::class)]
     private Collection $temperatures;
 
+    #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Etiquette::class, orphanRemoval: true)]
+    private Collection $etiquettes;
+
     public function __construct()
     {
         $this->temperatures = new ArrayCollection();
+        $this->etiquettes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,5 +110,35 @@ class Editeur
     public function __toString(): string
     {
         return $this->prenom . ' ' . $this->nom;
+    }
+
+    /**
+     * @return Collection<int, Etiquette>
+     */
+    public function getEtiquettes(): Collection
+    {
+        return $this->etiquettes;
+    }
+
+    public function addEtiquette(Etiquette $etiquette): self
+    {
+        if (!$this->etiquettes->contains($etiquette)) {
+            $this->etiquettes->add($etiquette);
+            $etiquette->setEditeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtiquette(Etiquette $etiquette): self
+    {
+        if ($this->etiquettes->removeElement($etiquette)) {
+            // set the owning side to null (unless already changed)
+            if ($etiquette->getEditeur() === $this) {
+                $etiquette->setEditeur(null);
+            }
+        }
+
+        return $this;
     }
 }

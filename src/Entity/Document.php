@@ -16,7 +16,7 @@ class Document
     #[ORM\Column(length: 255)]
     private ?string $nomStockage = null;
 
-    #[ORM\ManyToOne(inversedBy: 'documents')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etiquette $etiquette = null;
 

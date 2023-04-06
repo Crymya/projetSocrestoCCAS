@@ -28,8 +28,12 @@ class Etiquette
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dlc = null;
 
-    #[ORM\OneToMany(mappedBy: 'etiquette', targetEntity: Document::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'etiquette', targetEntity: Document::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $documents;
+
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'etiquettes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Editeur $editeur = null;
 
     public function __construct()
     {
@@ -115,6 +119,18 @@ class Etiquette
                 $document->setEtiquette(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEditeur(): ?Editeur
+    {
+        return $this->editeur;
+    }
+
+    public function setEditeur(?Editeur $editeur): self
+    {
+        $this->editeur = $editeur;
 
         return $this;
     }
