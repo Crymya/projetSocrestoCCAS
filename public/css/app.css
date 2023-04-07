@@ -32,6 +32,6 @@ h2 {
     background-color: #f8f9fa;
 }
 
-a:hover {
+.livraison-lien:hover {
     text-decoration: underline !important;
 }

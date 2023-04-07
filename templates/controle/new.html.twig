@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau contrôle Labocéa | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Ajout d'un nouveau contrôle Labocéa</h2>
+        </div>
+    </div>
+
+    {{ include('controle/_form.html.twig') }}
+
+{% endblock %}
