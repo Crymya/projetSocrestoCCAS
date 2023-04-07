@@ -23,9 +23,10 @@
 
         {{ form_end(form) }}
     </div>
-
-    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
-    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% if temperatures | length > 5 %}
+        <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+        <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% endif %}
 
     <table class="table table-striped mt-3">
         <thead>
@@ -58,6 +59,6 @@
     </table>
 
 
-    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
     <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
 {% endblock %}

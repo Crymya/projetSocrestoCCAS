@@ -30,11 +30,11 @@
                 <td class="text-center">{{ livraison.dateConsommation ? livraison.dateConsommation|date('d-m-Y') : '' }}</td>
                 {% for pdf in livraison.documents %}
                     <td class="text-center d-flex flex-column p-4">
-                        <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted">Voir le document</a>
+                        <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted livraison-lien">Voir le document</a>
                     </td>
                 {% endfor %}
                 <td class="text-center">
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Détails</button></a>
+                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}"class=" me-2"><button type="button" class="btn btn-primary">Détails</button></a>
                     <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
             </tr>
@@ -46,7 +46,7 @@
         </tbody>
     </table>
 
-    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
     <a class="text-decoration-none text-light" href="{{ path('app_livraison_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
 
 {% endblock %}

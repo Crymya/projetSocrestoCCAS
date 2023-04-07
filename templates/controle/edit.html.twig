@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Edit Controle</h2>
+
+    {{ include('controle/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+
+    {#{{ include('controle/_delete_form.html.twig') }}#}
+{% endblock %}

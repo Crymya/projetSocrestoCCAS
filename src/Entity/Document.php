@@ -22,6 +22,9 @@ class Document
     #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'documents')]
     private ?Livraison $livraison = null;
 
+    #[ORM\ManyToOne(inversedBy: 'documents')]
+    private ?Controle $controle = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +67,18 @@ class Document
     public function setLivraison(?Livraison $livraison): self
     {
         $this->livraison = $livraison;
+
+        return $this;
+    }
+
+    public function getControle(): ?Controle
+    {
+        return $this->controle;
+    }
+
+    public function setControle(?Controle $controle): self
+    {
+        $this->controle = $controle;
 
         return $this;
     }

@@ -30,7 +30,7 @@
                 <td class="text-center">{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('d-m-Y') : '' }}</td>
                 <td class="text-center">{{ etiquette.dlc ? etiquette.dlc|date('d-m-Y') : '' }}</td>
                 <td class="text-center">
-                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Détails</button></a>
+                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}" class="me-2"><button type="button" class="btn btn-primary">Détails</button></a>
                     <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
     <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
 
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relevé des contrôle Lobocéa | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Relevé des contrôles Labocéa</h2>
+
+    {% if controles|length > 10 %}
+        <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+        <a class="text-decoration-none text-light" href="{{ path('app_controle_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">Nom</th>
+                <th class="text-center">Date du controle</th>
+                <th class="text-center">Pièce jointe</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for controle in controles %}
+            <tr>
+                <td class="text-center">{{ controle.nom }}</td>
+                <td class="text-center">{{ controle.dateControle ? controle.dateControle|date('Y-m-d') : '' }}</td>
+                {% for pdf in controle.documents %}
+                    <td class="text-center d-flex flex-column p-4">
+                        <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted livraison-lien">Voir le document</a>
+                    </td>
+                {% endfor %}
+                <td class="text-center">
+                    <a href="{{ path('app_controle_edit', {'id': controle.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun contrôle enregistré !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_controle_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+
+{% endblock %}
