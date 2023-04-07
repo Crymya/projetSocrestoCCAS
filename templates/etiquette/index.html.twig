@@ -13,8 +13,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th class="text-center">NomProduit</th>
-                <th class="text-center">Temperature</th>
+                <th class="text-center">Utilisateur</th>
+                <th class="text-center">Nom du produit</th>
+                <th class="text-center">Température</th>
                 <th class="text-center">Date d'utilisation du produit</th>
                 <th class="text-center">Date limite de consommation</th>
                 <th class="text-center">Actions</th>
@@ -23,12 +24,13 @@
         <tbody>
         {% for etiquette in etiquettes %}
             <tr>
+                <td class="text-center">{{ etiquette.editeur }}</td>
                 <td class="text-center">{{ etiquette.nomProduit }}</td>
                 <td class="text-center">{{ etiquette.temperature }}</td>
                 <td class="text-center">{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('d-m-Y') : '' }}</td>
                 <td class="text-center">{{ etiquette.dlc ? etiquette.dlc|date('d-m-Y') : '' }}</td>
                 <td class="text-center">
-                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Voir</button></a>
+                    <a href="{{ path('app_etiquette_show', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Détails</button></a>
                     <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
             </tr>

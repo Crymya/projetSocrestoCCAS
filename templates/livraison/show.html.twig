@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livraison | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Aperçu d'un bon de livraison</h2>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <td>{{ livraison.editeur }}</td>
+                    </tr>
+                    <tr>
+                        <th>Numero de livraison</th>
+                        <td>{{ livraison.numeroLivraison }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de livraison</th>
+                        <td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de consommation</th>
+                        <td>{{ livraison.dateConsommation ? livraison.dateConsommation|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        {% if livraison.documents |length > 1 %}
+                        <th>Images</th>
+                        {% else %}
+                        <th>Image</th>
+                        {% endif %}
+                        {% for image in livraison.documents %}
+                            <td class="d-flex flex-column">
+                                <img src="{{ asset('ulpoads/' ~ image.nomStockage) }}" alt="Miniature" width="200">
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="text-decoration-none text-light me-2" href="{{ path('app_etiquette_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+            <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+
+            <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">edit</button></a>
+
+        </div>
+    </div>
+
+    {#{{ include('livraison/_delete_form.html.twig') }}#}
+{% endblock %}

@@ -17,8 +17,10 @@ class Document
     private ?string $nomStockage = null;
 
     #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'documents')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Etiquette $etiquette = null;
+
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'documents')]
+    private ?Livraison $livraison = null;
 
     public function getId(): ?int
     {
@@ -52,6 +54,18 @@ class Document
     public function __toString(): string
     {
         return $this->nomStockage;
+    }
+
+    public function getLivraison(): ?Livraison
+    {
+        return $this->livraison;
+    }
+
+    public function setLivraison(?Livraison $livraison): self
+    {
+        $this->livraison = $livraison;
+
+        return $this;
     }
 
 
