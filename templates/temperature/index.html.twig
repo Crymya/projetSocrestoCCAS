@@ -40,7 +40,7 @@
         </thead>
         <tbody>
         {% for temperature in temperatures %}
-            <tr>
+            <tr class="align-middle">
                 <td class="text-center">{{ temperature.materiel }}</td>
                 <td class="text-center">{{ temperature.dateControle ? temperature.dateControle|date('d-m-Y H:i') : '' }}</td>
                 <td class="text-center">{{ temperature.editeur }}</td>

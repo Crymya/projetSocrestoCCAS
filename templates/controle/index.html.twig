@@ -21,9 +21,9 @@
         </thead>
         <tbody>
         {% for controle in controles %}
-            <tr>
+            <tr class="align-middle">
                 <td class="text-center">{{ controle.nom }}</td>
-                <td class="text-center">{{ controle.dateControle ? controle.dateControle|date('Y-m-d') : '' }}</td>
+                <td class="text-center">{{ controle.dateControle ? controle.dateControle|date('d-m-Y') : '' }}</td>
                 {% for pdf in controle.documents %}
                     <td class="text-center d-flex flex-column p-4">
                         <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted livraison-lien">Voir le document</a>
