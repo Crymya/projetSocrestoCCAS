@@ -23,7 +23,7 @@
         </thead>
         <tbody>
         {% for livraison in livraisons %}
-            <tr>
+            <tr class="align-middle">
                 <td class="text-center">{{ livraison.editeur }}</td>
                 <td class="text-center">{{ livraison.numeroLivraison }}</td>
                 <td class="text-center">{{ livraison.dateLivraison ? livraison.dateLivraison|date('d-m-Y') : '' }}</td>
@@ -34,7 +34,6 @@
                     </td>
                 {% endfor %}
                 <td class="text-center">
-                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}"class=" me-2"><button type="button" class="btn btn-primary">Détails</button></a>
                     <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
             </tr>

@@ -23,10 +23,10 @@
         </thead>
         <tbody>
         {% for etiquette in etiquettes %}
-            <tr>
+            <tr class="align-middle">
                 <td class="text-center">{{ etiquette.editeur }}</td>
                 <td class="text-center">{{ etiquette.nomProduit }}</td>
-                <td class="text-center">{{ etiquette.temperature }}</td>
+                <td class="text-center">{{ etiquette.temperature }}°</td>
                 <td class="text-center">{{ etiquette.jourUtilise ? etiquette.jourUtilise|date('d-m-Y') : '' }}</td>
                 <td class="text-center">{{ etiquette.dlc ? etiquette.dlc|date('d-m-Y') : '' }}</td>
                 <td class="text-center">
