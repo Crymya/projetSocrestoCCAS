@@ -3,17 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Editeur;
-use App\Entity\Etiquette;
+use App\Entity\Livraison;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EtiquetteType extends AbstractType
+class LivraisonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -23,22 +22,18 @@ class EtiquetteType extends AbstractType
                 'class' => Editeur::class,
                 'placeholder' => '-- Saisir un utilisateur --'
             ])
-            ->add('nomProduit', TextType::class, [
-                'label' => 'Nom du produit'
+            ->add('numeroLivraison', IntegerType::class, [
+                'label' => 'Numéro de livraison'
             ])
-            ->add('temperature', NumberType::class, [
-                'label' => 'Température du produit',
-                'required' => true
-            ])
-            ->add('jourUtilise', DateType::class, [
+            ->add('dateLivraison', DateType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date du jour utilisé'
+                'label' => 'Date de livraison'
             ])
-            ->add('dlc', DateType::class, [
+            ->add('dateConsommation', DateType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date limite de consommation'
+                'label' => 'Date de consommation'
             ])
             ->add('documents', FileType::class, [
                 'label' => false,
@@ -52,7 +47,7 @@ class EtiquetteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Etiquette::class,
+            'data_class' => Livraison::class,
             'allow_extra_fields' => true
         ]);
     }

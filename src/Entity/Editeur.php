@@ -30,10 +30,14 @@ class Editeur
     #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Etiquette::class, orphanRemoval: true)]
     private Collection $etiquettes;
 
+    #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Livraison::class, orphanRemoval: true)]
+    private Collection $livraisons;
+
     public function __construct()
     {
         $this->temperatures = new ArrayCollection();
         $this->etiquettes = new ArrayCollection();
+        $this->livraisons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +140,36 @@ class Editeur
             // set the owning side to null (unless already changed)
             if ($etiquette->getEditeur() === $this) {
                 $etiquette->setEditeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Livraison>
+     */
+    public function getLivraisons(): Collection
+    {
+        return $this->livraisons;
+    }
+
+    public function addLivraison(Livraison $livraison): self
+    {
+        if (!$this->livraisons->contains($livraison)) {
+            $this->livraisons->add($livraison);
+            $livraison->setEditeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivraison(Livraison $livraison): self
+    {
+        if ($this->livraisons->removeElement($livraison)) {
+            // set the owning side to null (unless already changed)
+            if ($livraison->getEditeur() === $this) {
+                $livraison->setEditeur(null);
             }
         }
 

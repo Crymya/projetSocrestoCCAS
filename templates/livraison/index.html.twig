@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relevé des bons de livraisons | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Relevé des bons de livraisons</h2>
+
+    {% if livraisons|length > 10 %}
+        <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+        <a class="text-decoration-none text-light" href="{{ path('app_livraison_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">Utilisateur</th>
+                <th class="text-center">Numero de livraison</th>
+                <th class="text-center">Date de livraison</th>
+                <th class="text-center">Date de consommation</th>
+                <th class="text-center">Pièce jointe</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for livraison in livraisons %}
+            <tr>
+                <td class="text-center">{{ livraison.editeur }}</td>
+                <td class="text-center">{{ livraison.numeroLivraison }}</td>
+                <td class="text-center">{{ livraison.dateLivraison ? livraison.dateLivraison|date('d-m-Y') : '' }}</td>
+                <td class="text-center">{{ livraison.dateConsommation ? livraison.dateConsommation|date('d-m-Y') : '' }}</td>
+                {% for pdf in livraison.documents %}
+                    <td class="text-center d-flex flex-column p-4">
+                        <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted">Voir le document</a>
+                    </td>
+                {% endfor %}
+                <td class="text-center">
+                    <a href="{{ path('app_livraison_show', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Détails</button></a>
+                    <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun bon de livraison enregistré !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_livraison_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+
+{% endblock %}

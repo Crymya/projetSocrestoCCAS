@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau bon de livraison | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Ajout d'un nouveau bon de livraison</h2>
+        </div>
+    </div>
+
+    {{ include('livraison/_form.html.twig') }}
+
+{% endblock %}

@@ -48,11 +48,9 @@
             <a class="text-decoration-none text-light me-2" href="{{ path('app_etiquette_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
             <a class="text-decoration-none text-light" href="{{ path('app_etiquette_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
 
+            <a href="{{ path('app_etiquette_edit', {'id': etiquette.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
         </div>
     </div>
-
-
-
 
     {#{{ include('etiquette/_delete_form.html.twig') }}#}
 {% endblock %}
