@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TemperatureRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TemperatureRepository::class)]
 class Temperature
@@ -15,9 +16,12 @@ class Temperature
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Range(notInRangeMessage: 'Merci de saisir une valeur entre {{ min}} et {{ max }}', min: -30, max: 10)]
     private ?float $valeur = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\DateTime]
     private ?\DateTimeInterface $dateControle = null;
 
     #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'temperatures')]

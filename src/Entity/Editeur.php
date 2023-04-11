@@ -6,6 +6,7 @@ use App\Repository\EditeurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EditeurRepository::class)]
 class Editeur
@@ -16,9 +17,13 @@ class Editeur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Minimum de 2 charactères requis', maxMessage: 'Maximum de 255 charactères requis')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Minimum de 2 charactères requis', maxMessage: 'Maximum de 255 charactères requis')]
     private ?string $prenom = null;
 
     #[ORM\Column]

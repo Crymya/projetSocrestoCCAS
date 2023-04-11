@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EtiquetteRepository::class)]
 class Etiquette
@@ -17,15 +18,23 @@ class Etiquette
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Minimum de 2 charactères requis', maxMessage: 'Maximum de 255 charactères requis')]
     private ?string $nomProduit = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Range(notInRangeMessage: 'Merci de saisir une valeur entre {{ min}} et {{ max }}', min: -30, max: 20)]
     private ?float $temperature = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\Date]
+    #[Assert\LessThan(propertyPath: 'dlc', message: 'Le jour où le produit a été utilisé ne peut pas être postérieur à la date limite de consommation')]
     private ?\DateTimeInterface $jourUtilise = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\Date]
+    #[Assert\GreaterThan(propertyPath: 'jourUtilise', message: 'La date limite de consommation doit être supérieure au jour où le produit a été ouvert')]
     private ?\DateTimeInterface $dlc = null;
 
     #[ORM\OneToMany(mappedBy: 'etiquette', targetEntity: Document::class, cascade: ["persist"], orphanRemoval: true)]
