@@ -20,7 +20,7 @@ class ListeTachesFixtures extends Fixture implements DependentFixtureInterface
         $lieu = $manager->getRepository(Lieu::class)->findOneBy(['nom' => 'Zone cuisine et plonge']);
         $periodicite = $manager->getRepository(Periodicite::class)->findAll();
 
-        for ($i=1; $i < 5; $i++)
+        for ($i=1; $i < 17; $i++)
         {
             $tache = new ListeDesTaches();
             $tache->setNom($faker->sentence(3));
@@ -34,7 +34,7 @@ class ListeTachesFixtures extends Fixture implements DependentFixtureInterface
         $lieu = $manager->getRepository(Lieu::class)->findOneBy(['nom' => 'Zone réfectoire, hall entrée et bureau']);
         $periodicite = $manager->getRepository(Periodicite::class)->findAll();
 
-        for ($i=1; $i < 5; $i++)
+        for ($i=1; $i < 14; $i++)
         {
             $tache = new ListeDesTaches();
             $tache->setNom($faker->sentence(3));
