@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
 class Document
@@ -14,6 +15,8 @@ class Document
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Minimum de 2 charactères requis', maxMessage: 'Maximum de 255 charactères requis')]
     private ?string $nomStockage = null;
 
     #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'documents')]

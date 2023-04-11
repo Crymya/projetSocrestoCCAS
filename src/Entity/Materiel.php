@@ -6,6 +6,7 @@ use App\Repository\MaterielRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterielRepository::class)]
 class Materiel
@@ -16,9 +17,13 @@ class Materiel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Length(min: 4, max: 255, minMessage: 'Minimum de 4 charactères requis', maxMessage: 'Maximum de 255 charactères requis')]
     private ?string $nom = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Range(notInRangeMessage: 'Merci de saisir une valeur entre {{ min}} et {{ max }}', min: -30, max: 10)]
     private ?int $tempMax = null;
 
     #[ORM\OneToMany(mappedBy: 'materiel', targetEntity: Temperature::class, cascade: ["persist"])]

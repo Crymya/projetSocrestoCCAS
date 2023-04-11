@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LivraisonRepository::class)]
 class Livraison
@@ -17,12 +18,18 @@ class Livraison
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\PositiveOrZero]
     private ?int $numeroLivraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\Date]
+    #[Assert\LessThan(propertyPath: 'dateConsommation', message: 'La date de livraison doit être antérieure à la date de consommation')]
     private ?\DateTimeInterface $dateLivraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\Date]
+    #[Assert\GreaterThan(propertyPath: 'dateLivraison', message: 'La date de consommation doit être supérieure à la date de livraison')]
     private ?\DateTimeInterface $dateConsommation = null;
 
     #[ORM\OneToMany(mappedBy: 'livraison', targetEntity: Document::class, cascade: ["persist"])]
