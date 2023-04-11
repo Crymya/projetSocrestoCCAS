@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+
+<div class="d-flex flex-row justify-content-center">
+    <div class="card me-3 border-success">
+        <div class="card-header bg-primary text-light bg-success text-light">
+            {{ t1.nom }}
+        </div>
+        <div class="card-body">
+            <p>
+                {{ form_row(form.editeur1) }}
+            </p>
+        </div>
+        <button class="btn btn-success">OK</button>
+    </div>
+
+    <div class="card me-3 border-success">
+        <div class="card-header bg-primary text-light bg-success text-light">
+            {{ t2.nom }}
+        </div>
+        <div class="card-body">
+            <p>
+                {{ form_row(form.editeur2) }}
+            </p>
+        </div>
+        <button class="btn btn-success">OK</button>
+    </div>
+
+
+</div>
+
+
+{{ form_end(form) }}
