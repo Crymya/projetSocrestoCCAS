@@ -18,14 +18,14 @@ class ListeDesTaches
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'tache', targetEntity: TacheRealise::class)]
+    #[ORM\OneToMany(mappedBy: 'tache', targetEntity: TacheRealise::class, cascade: ["persist"])]
     private Collection $tacheRealises;
 
-    #[ORM\ManyToOne(inversedBy: 'taches')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
-    #[ORM\ManyToOne(inversedBy: 'taches')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'taches')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Periodicite $periodicite = null;
 
@@ -104,4 +104,11 @@ class ListeDesTaches
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->nom;
+    }
+
+
 }

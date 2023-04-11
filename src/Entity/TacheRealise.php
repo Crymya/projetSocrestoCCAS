@@ -17,11 +17,11 @@ class TacheRealise
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $moment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tacheRealises')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'tacheRealises')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Editeur $editeur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tacheRealises')]
+    #[ORM\ManyToOne(cascade: ["persist"], inversedBy: 'tacheRealises')]
     #[ORM\JoinColumn(nullable: false)]
     private ?ListeDesTaches $tache = null;
 

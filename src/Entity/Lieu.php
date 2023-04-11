@@ -18,7 +18,7 @@ class Lieu
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ListeDesTaches::class)]
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: ListeDesTaches::class, cascade: ["persist"])]
     private Collection $taches;
 
     public function __construct()
@@ -72,4 +72,11 @@ class Lieu
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->nom;
+    }
+
+
 }

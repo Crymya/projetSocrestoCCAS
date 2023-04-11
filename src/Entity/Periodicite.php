@@ -24,7 +24,7 @@ class Periodicite
     #[ORM\Column]
     private ?int $recurrence = null;
 
-    #[ORM\OneToMany(mappedBy: 'periodicite', targetEntity: ListeDesTaches::class)]
+    #[ORM\OneToMany(mappedBy: 'periodicite', targetEntity: ListeDesTaches::class, cascade: ["persist"])]
     private Collection $taches;
 
     public function __construct()
@@ -102,4 +102,11 @@ class Periodicite
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->description;
+    }
+
+
 }

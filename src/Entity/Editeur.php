@@ -38,7 +38,7 @@ class Editeur
     #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Livraison::class, orphanRemoval: true)]
     private Collection $livraisons;
 
-    #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: TacheRealise::class)]
+    #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: TacheRealise::class, cascade: ["persist"], orphanRemoval: true)]
     private Collection $tacheRealises;
 
     public function __construct()
