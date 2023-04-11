@@ -13,6 +13,7 @@ class LieuFixtures extends Fixture
         $lieu1 = new Lieu();
         $lieu1->setNom('Zone cuisine et plonge');
 
+
         $manager->persist($lieu1);
 
         $lieu2 = new Lieu();
