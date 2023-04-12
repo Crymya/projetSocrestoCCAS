@@ -41,7 +41,7 @@ class TemperatureRepository extends ServiceEntityRepository
         }
     }
 
-    public function findSearch(SearchData $search)
+    public function findSearch(SearchData $search): Paginator
     {
         $materiel = $search->materiels;
         $count = count($materiel);
