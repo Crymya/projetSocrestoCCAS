@@ -35,3 +35,19 @@ h2 {
 .livraison-lien:hover {
     text-decoration: underline !important;
 }
+
+.button_taches {
+    height: 170px;
+    width: 240px;
+    display: block;
+    background-color: #1c731d;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.button_taches:hover {
+    opacity: 0.5;
+    color: #000000;
+    border: solid 2px #1c731d;
+    border-radius: 10px;
+}

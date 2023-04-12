@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Editeur;
+use App\Entity\ListeDesTaches;
 use App\Entity\TacheRealise;
 use App\Form\TacheRealiseType;
+use App\Form\TacheRType;
 use App\Repository\ListeDesTachesRepository;
 use App\Repository\TacheRealiseRepository;
 use App\Tools\ModeleTache;
@@ -19,10 +21,11 @@ class TacheController extends AbstractController
 {
 
     #[Route('/', name: 'app_tache_index', methods: ['GET'])]
-    public function index(TacheRealiseRepository $tacheRealiseRepository): Response
+    public function index(): Response
     {
         return $this->render('tache/index.html.twig');
     }
+
     #[Route('/list', name: 'app_tache_list', methods: ['GET'])]
     public function list(TacheRealiseRepository $tacheRealiseRepository): Response
     {
@@ -34,35 +37,17 @@ class TacheController extends AbstractController
     #[Route('/new', name: 'app_tache_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ListeDesTachesRepository $tachesRepository, EntityManagerInterface $entityManager): Response
     {
-        $modeleTache = new ModeleTache();
-        $form = $this->createForm(TacheRealiseType::class, $modeleTache);
+        $tache = new TacheRealise();
+        $form = $this->createForm(TacheRealiseType::class, $tache);
         $form->handleRequest($request);
 
-        /*$t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);
-        $t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);*/
-
-        $t1 = $tachesRepository->findOneBy(['nom' => 'Illum illo qui ratione.']);
-        $t2 = $tachesRepository->findOneBy(['nom' => 'Dolor cupiditate repudiandae.']);
+        $taches = $tachesRepository->findByZone(['id' => 3]);
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $tache->setMoment(new \DateTime());
 
-            $tache1 = new TacheRealise();
-            $tache1->setEditeur($modeleTache->editeur1);
-            $tache1->setMoment(new \DateTime());
-            /*$t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);*/
-            $t1 = $tachesRepository->findOneBy(['nom' => 'Illum illo qui ratione.']);
-            $t1->addTacheRealise($tache1);
-
-            $tache2 = new TacheRealise();
-            $tache2->setEditeur($modeleTache->editeur2);
-            $tache2->setMoment(new \DateTime());
-            /*$t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);*/
-            $t2 = $tachesRepository->findOneBy(['nom' => 'Dolor cupiditate repudiandae.']);
-            $t2->addTacheRealise($tache2);
-
-            $entityManager->persist($t1);
-            $entityManager->persist($t2);
+            $entityManager->persist($tache);
             $entityManager->flush();
 
             $this->addFlash('success', 'Tâche sauvegardée avec succès !');
@@ -70,9 +55,7 @@ class TacheController extends AbstractController
         }
 
         return $this->render('tache/new.html.twig', [
-            'tache_realise' => $modeleTache,
-            't1' => $t1,
-            't2' => $t2,
+            'taches' => $taches,
             'form' => $form->createView(),
         ]);
     }

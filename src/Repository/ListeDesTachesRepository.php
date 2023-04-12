@@ -39,6 +39,17 @@ class ListeDesTachesRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByZone($value): array
+    {
+        return $this
+            ->createQueryBuilder('l')
+            ->where('l.lieu = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+
+    }
+
 //    /**
 //     * @return ListeDesTaches[] Returns an array of ListeDesTaches objects
 //     */

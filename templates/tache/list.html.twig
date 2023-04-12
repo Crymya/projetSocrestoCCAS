@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TacheRealise index{% endblock %}
+{% block title %}Tâches réalisées | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>TacheRealise index</h1>
+    <h2>Relevé du plan de nettoyage</h2>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Utilisateur</th>
             <th>Moment</th>
-            <th>actions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for tache_realise in tache_realises %}
             <tr>
-                <td>{{ tache_realise.id }}</td>
-                <td>{{ tache_realise.moment ? tache_realise.moment|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tache_realise.editeur }}</td>
+                <td>{{ tache_realise.moment ? tache_realise.moment|date('d-m-Y') : '' }}</td>
                 <td>
                     <a href="{{ path('app_tache_show', {'id': tache_realise.id}) }}">show</a>
                     <a href="{{ path('app_tache_edit', {'id': tache_realise.id}) }}">edit</a>
@@ -25,11 +25,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucune saisie !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_tache_new') }}">Create new</a>
+    <a href="{{ path('app_tache_new') }}">Enregistrer une nouvelle tâche</a>
 {% endblock %}
