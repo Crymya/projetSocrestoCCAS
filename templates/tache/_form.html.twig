@@ -1,30 +1,14 @@
 {{ form_start(form) }}
 
-<div class="d-flex flex-row justify-content-center">
-    <div class="card me-3 border-success">
-        <div class="card-header bg-primary text-light bg-success text-light">
-            {{ t1.nom }}
-        </div>
-        <div class="card-body">
-            <p>
-                {{ form_row(form.editeur1) }}
-            </p>
-        </div>
-        <button class="btn btn-success">OK</button>
-    </div>
+{{ form_row(form.editeur) }}
 
-    <div class="card me-3 border-success">
-        <div class="card-header bg-primary text-light bg-success text-light">
-            {{ t2.nom }}
-        </div>
-        <div class="card-body">
-            <p>
-                {{ form_row(form.editeur2) }}
-            </p>
-        </div>
-        <button class="btn btn-success">OK</button>
+{% for tache in taches %}
+    <div class="d-flex flex-row flex-wrap">
+        <input type="radio" name="ta" id="taR">
+        <label>{{ tache.nom }}</label>
     </div>
-</div>
+{% endfor %}
 
+<button class="btn bg-primary text-light" name="btnsave" value="save" type="submit">Enregistrer</button>
 
 {{ form_end(form) }}
