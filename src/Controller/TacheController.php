@@ -38,8 +38,11 @@ class TacheController extends AbstractController
         $form = $this->createForm(TacheRealiseType::class, $modeleTache);
         $form->handleRequest($request);
 
-        $t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);
-        $t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);
+        /*$t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);
+        $t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);*/
+
+        $t1 = $tachesRepository->findOneBy(['nom' => 'Illum illo qui ratione.']);
+        $t2 = $tachesRepository->findOneBy(['nom' => 'Dolor cupiditate repudiandae.']);
 
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -47,13 +50,15 @@ class TacheController extends AbstractController
             $tache1 = new TacheRealise();
             $tache1->setEditeur($modeleTache->editeur1);
             $tache1->setMoment(new \DateTime());
-            $t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);
+            /*$t1 = $tachesRepository->findOneBy(['nom' => 'Sit dolores qui.']);*/
+            $t1 = $tachesRepository->findOneBy(['nom' => 'Illum illo qui ratione.']);
             $t1->addTacheRealise($tache1);
 
             $tache2 = new TacheRealise();
             $tache2->setEditeur($modeleTache->editeur2);
             $tache2->setMoment(new \DateTime());
-            $t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);
+            /*$t2 = $tachesRepository->findOneBy(['nom' => 'Quas voluptatum modi sunt iure.']);*/
+            $t2 = $tachesRepository->findOneBy(['nom' => 'Dolor cupiditate repudiandae.']);
             $t2->addTacheRealise($tache2);
 
             $entityManager->persist($t1);

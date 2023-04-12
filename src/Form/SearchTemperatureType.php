@@ -26,7 +26,7 @@ class SearchTemperatureType extends AbstractType
             ->add('dateFin', DateType::class, [
                 'html5' => true,
                 'widget' => 'single_text',
-                'label' => 'Date de début',
+                'label' => 'Date de fin',
                 'required' => false,
                 'by_reference' => false,
                 'empty_data' => ''
@@ -53,7 +53,7 @@ class SearchTemperatureType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return '';
     }

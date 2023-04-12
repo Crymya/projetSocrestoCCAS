@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\SearchData;
 use App\Entity\Temperature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -70,6 +71,11 @@ class TemperatureRepository extends ServiceEntityRepository
                 ->setParameter('materiels', $search->materiels);
         }
 
-        return $queryBuilder->getQuery()->getResult();
+        $query = $queryBuilder->getQuery();
+        $query->setMaxResults(60);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
     }
 }
