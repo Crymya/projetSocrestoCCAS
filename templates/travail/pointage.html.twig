@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taches | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2 class="text-center">{{ zone.libelle }} : {{ periode.libelle }}</h2>
+
+    <div class="d-flex justify-content-center">
+        {% for z in zones %}
+            <a href="{{ path('app_travail', {'idZone': z.id}) }}" role="button" class="text-decoration-none text-dark mt-4 mb-4 me-2 button-zone" aria-pressed="true">{{ z.libelle }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex">
+        <div class="mt-3">
+            <ul class="">
+                {% for p in typePeriode %}
+                    <li><a href="{{ path('app_travail', {'idZone': zone.id, 'idPeriode': p.id}) }}" class="text-decoration-none text-dark mb-2 btn border liste-periode">{{ p.libelle }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {{ form_start(form) }}
+
+        <div class="card-tache-flex">
+            {% for tache in form.tacheRealisees %}
+                <div class="card-tache">
+                    <div class="card">
+                        <div class="card-body bg-light">
+                            <h3>{{ tache.vars.value.tache.libelle }}</h3>
+                            {{ form_row(tache.tache) }}
+                            {{ form_row(tache.editeur) }}
+                            {{ form_row(tache.realisee) }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="d-flex flex-row justify-content-between">
+                <div>
+                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-primary me-2">Relevé du plan de nettoyage</button></a>
+                </div>
+                <div>
+                    <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary me-2">Annuler</button></a>
+                    <button class="btn bg-primary text-light" name="btnsave" value="save" type="submit">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
