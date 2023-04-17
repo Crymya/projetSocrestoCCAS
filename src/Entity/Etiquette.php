@@ -28,12 +28,10 @@ class Etiquette
     private ?float $temperature = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Date]
     #[Assert\LessThan(propertyPath: 'dlc', message: 'Le jour où le produit a été utilisé ne peut pas être postérieur à la date limite de consommation')]
     private ?\DateTimeInterface $jourUtilise = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Date]
     #[Assert\GreaterThan(propertyPath: 'jourUtilise', message: 'La date limite de consommation doit être supérieure au jour où le produit a été ouvert')]
     private ?\DateTimeInterface $dlc = null;
 
