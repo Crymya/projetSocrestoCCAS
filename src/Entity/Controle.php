@@ -23,7 +23,6 @@ class Controle
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Date]
     private ?\DateTimeInterface $dateControle = null;
 
     #[ORM\OneToMany(mappedBy: 'controle', targetEntity: Document::class, cascade: ["persist"])]

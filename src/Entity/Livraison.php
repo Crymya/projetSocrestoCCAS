@@ -23,12 +23,10 @@ class Livraison
     private ?int $numeroLivraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Date]
     #[Assert\LessThan(propertyPath: 'dateConsommation', message: 'La date de livraison doit être antérieure à la date de consommation')]
     private ?\DateTimeInterface $dateLivraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\Date]
     #[Assert\GreaterThan(propertyPath: 'dateLivraison', message: 'La date de consommation doit être supérieure à la date de livraison')]
     private ?\DateTimeInterface $dateConsommation = null;
 

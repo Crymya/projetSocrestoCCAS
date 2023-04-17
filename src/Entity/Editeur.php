@@ -38,15 +38,12 @@ class Editeur
     #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: Livraison::class, orphanRemoval: true)]
     private Collection $livraisons;
 
-    #[ORM\OneToMany(mappedBy: 'editeur', targetEntity: TacheRealise::class, cascade: ["persist"], orphanRemoval: true)]
-    private Collection $tacheRealises;
 
     public function __construct()
     {
         $this->temperatures = new ArrayCollection();
         $this->etiquettes = new ArrayCollection();
         $this->livraisons = new ArrayCollection();
-        $this->tacheRealises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,33 +182,4 @@ class Editeur
         return $this;
     }
 
-    /**
-     * @return Collection<int, TacheRealise>
-     */
-    public function getTacheRealises(): Collection
-    {
-        return $this->tacheRealises;
-    }
-
-    public function addTacheRealise(TacheRealise $tacheRealise): self
-    {
-        if (!$this->tacheRealises->contains($tacheRealise)) {
-            $this->tacheRealises->add($tacheRealise);
-            $tacheRealise->setEditeur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTacheRealise(TacheRealise $tacheRealise): self
-    {
-        if ($this->tacheRealises->removeElement($tacheRealise)) {
-            // set the owning side to null (unless already changed)
-            if ($tacheRealise->getEditeur() === $this) {
-                $tacheRealise->setEditeur(null);
-            }
-        }
-
-        return $this;
-    }
 }
