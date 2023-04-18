@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Editeur;
 use App\Entity\Materiel;
 use App\Entity\Tache;
+use App\Entity\TachePrevue;
+use App\Entity\Travail;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -71,6 +73,13 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Actions', 'fas fa-bar')->setSubItems([
             MenuItem::linkToCrud('Ajouter une tâche', 'fas fa-plus-circle', Tache::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('Supprimer une tâche', 'fas fa-times', Tache::class)
+        ]);
+
+        yield MenuItem::linkToCrud('Tâche prévisionnelles', 'fas fa-list', TachePrevue::class);
+
+        yield MenuItem::subMenu('Actions', 'fas fa-bar')->setSubItems([
+            MenuItem::linkToCrud('Ajouter une tâche prévisionnelle', 'fas fa-plus-circle', TachePrevue::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Supprimer une tâche prévisionnelle', 'fas fa-times', TachePrevue::class)
         ]);
     }
 }
