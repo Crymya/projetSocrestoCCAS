@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relevé des tâches | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>Relevé des tâches</h2>
+
+
+    {% if taches | length > 10 %}
+        <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+        <a class="text-decoration-none text-light" href="{{ path('app_travail') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    {% endif %}
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th class="text-center">Utilisateur</th>
+            <th class="text-center">Lieu de réalisation</th>
+            <th class="text-center">Tâche</th>
+            <th class="text-center">Date de réalisation</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ta in taches %}
+            <tr class="align-middle">
+                <td class="text-center">{{ ta.editeur }}</td>
+                <td class="text-center">{{ ta.travail.zone }}</td>
+                <td class="text-center">{{ ta.tache }}</td>
+                <td class="text-center">{{ ta.travail.dateDebut ? ta.travail.dateDebut|date('d-m-Y') : '' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune tâche réalisée !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_travail') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+{% endblock %}

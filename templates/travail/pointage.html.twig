@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Taches | {{ parent() }}{% endblock %}
+{% block title %}Tâches | {{ parent() }}{% endblock %}
 
 {% block body %}
     <h2 class="text-center">{{ zone.libelle }} : {{ periode.libelle }}</h2>
@@ -43,7 +43,7 @@
         <div class="col-6">
             <div class="d-flex flex-row justify-content-between">
                 <div>
-                    <a class="text-decoration-none text-light" href="#"><button type="button" class="btn btn-primary me-2">Relevé du plan de nettoyage</button></a>
+                    <a class="text-decoration-none text-light" href="{{ path('app_travail_list') }}"><button type="button" class="btn btn-primary me-2">Relevé du plan de nettoyage</button></a>
                 </div>
                 <div>
                     <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary me-2">Annuler</button></a>
