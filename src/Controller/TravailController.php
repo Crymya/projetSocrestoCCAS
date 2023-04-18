@@ -9,6 +9,7 @@ use App\Entity\Zone;
 use App\Form\Travail1Type;
 use App\Form\TravailType;
 use App\Repository\TachePrevueRepository;
+use App\Repository\TacheRealiseeRepository;
 use App\Repository\TravailRepository;
 use App\Repository\TypePeriodeRepository;
 use App\Repository\ZoneRepository;
@@ -18,9 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/travail')]
 class TravailController extends AbstractController
 {
-    #[Route('/travail/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 1, 'idPeriode' => 1])]
+    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 1, 'idPeriode' => 1])]
     #[ParamConverter('zone', options: ['mapping' => ['idZone' => 'id']])]
     #[ParamConverter('periode', options: ['mapping' => ['idPeriode' => 'id']])]
     public function pointageTaches(
@@ -104,13 +106,14 @@ class TravailController extends AbstractController
         ]);
     }
 
-    #[Route('/travail', name: 'app_travail_accueil', methods: ['GET'])]
-    public function accueil(): Response
+    #[Route('/list', name: 'app_travail_list', methods: ['GET'])]
+    public function list(TacheRealiseeRepository $tacheRealiseeRepository): Response
     {
-        return $this->render('travail/index.html.twig', [
-            'controller_name' => 'MainController',
+        return $this->render('travail/list.html.twig', [
+            'taches' => $tacheRealiseeRepository->findBy(['realisee' => true]),
         ]);
     }
+
 
     /*#[Route('/new', name: 'app_travail_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TravailRepository $travailRepository): Response
