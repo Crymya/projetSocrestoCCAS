@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Editeur;
 use App\Entity\Tache;
 use App\Entity\TacheRealisee;
+use App\Repository\EditeurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -26,7 +27,12 @@ class TacheRealiseeType extends AbstractType
                 'class' => Editeur::class,
                 'label' => false,
                 'placeholder' => '-- Saisir un utilisateur --',
-                'required' => false
+                'required' => false,
+                'query_builder' => function (EditeurRepository $editeurRepository) {
+                    return $editeurRepository->createQueryBuilder('er')
+                        ->where('er.actif = :actif')
+                        ->setParameter('actif', true);
+                }
             ])
             ->add('realisee', CheckboxType::class, [
                 'required' => false,
