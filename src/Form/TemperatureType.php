@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Editeur;
+use App\Repository\EditeurRepository;
 use App\Tools\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +19,12 @@ class TemperatureType extends AbstractType
             ->add('editeur', EntityType::class, [
                 'label' => 'Utilisateur',
                 'class' => Editeur::class,
-                'placeholder' => '-- Saisir un utilisateur --'
+                'placeholder' => '-- Saisir un utilisateur --',
+                'query_builder' => function (EditeurRepository $editeurRepository) {
+                    return $editeurRepository->createQueryBuilder('er')
+                        ->where('er.actif = :actif')
+                        ->setParameter('actif', true);
+                }
             ])
             ->add('temp1', IntegerType::class, [
                 'label' => 'Température',

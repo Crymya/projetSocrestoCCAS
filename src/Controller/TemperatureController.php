@@ -7,6 +7,7 @@ use App\Entity\Temperature;
 use App\Form\ModificationTemperatureType;
 use App\Form\SearchTemperatureType;
 use App\Form\TemperatureType;
+use App\Repository\EditeurRepository;
 use App\Repository\MaterielRepository;
 use App\Repository\TemperatureRepository;
 use App\Tools\Modele;
@@ -44,6 +45,7 @@ class TemperatureController extends AbstractController
         $frigo2 = $materielRepository->findOneBy(['nom' => 'Frigo n°2']);
         $congelateur1 = $materielRepository->findOneBy(['nom' => 'Congélateur n°1']);
         $congelateur2 = $materielRepository->findOneBy(['nom' => 'Congélateur n°2']);
+
 
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -91,7 +93,7 @@ class TemperatureController extends AbstractController
             'frigo1' => $frigo1,
             'frigo2' => $frigo2,
             'congelateur1' => $congelateur1,
-            'congelateur2' => $congelateur2
+            'congelateur2' => $congelateur2,
         ]);
     }
 

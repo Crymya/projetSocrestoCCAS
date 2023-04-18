@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Editeur;
 use App\Entity\Temperature;
+use App\Repository\EditeurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -19,7 +20,12 @@ class ModificationTemperatureType extends AbstractType
             ->add('editeur', EntityType::class, [
                 'label' => 'Utilisateur',
                 'class' => Editeur::class,
-                'placeholder' => '-- Saisir un utilisateur --'
+                'placeholder' => '-- Saisir un utilisateur --',
+                'query_builder' => function (EditeurRepository $editeurRepository) {
+                    return $editeurRepository->createQueryBuilder('er')
+                        ->where('er.actif = :actif')
+                        ->setParameter('actif', true);
+                }
             ])
             ->add('valeur', IntegerType::class, [
                 'label' => 'Température',

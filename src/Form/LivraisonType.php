@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Editeur;
 use App\Entity\Livraison;
+use App\Repository\EditeurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -20,7 +21,12 @@ class LivraisonType extends AbstractType
             ->add('editeur', EntityType::class, [
                 'label' => 'Utilisateur',
                 'class' => Editeur::class,
-                'placeholder' => '-- Saisir un utilisateur --'
+                'placeholder' => '-- Saisir un utilisateur --',
+                'query_builder' => function (EditeurRepository $editeurRepository) {
+                    return $editeurRepository->createQueryBuilder('er')
+                        ->where('er.actif = :actif')
+                        ->setParameter('actif', true);
+                }
             ])
             ->add('numeroLivraison', IntegerType::class, [
                 'label' => 'Numéro de livraison'
