@@ -46,6 +46,7 @@ class TemperatureRepository extends ServiceEntityRepository
         $materiel = $search->materiels;
         $count = count($materiel);
 
+
         $queryBuilder = $this
             ->createQueryBuilder('t')
             ->join('t.materiel', 'm')
