@@ -50,7 +50,9 @@ class LivraisonController extends AbstractController
                         $livraison->addDocument($document);
                     }
                 }
+                dump($livraison);
                 $entityManager->persist($livraison);
+                dump($livraison);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Bon de livraison ajouté avec succès !');

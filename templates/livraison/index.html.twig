@@ -15,9 +15,10 @@
             <tr>
                 <th class="text-center">Utilisateur</th>
                 <th class="text-center">Numero de livraison</th>
+                <th class="text-center">Température</th>
                 <th class="text-center">Date de livraison</th>
-                <th class="text-center">Date de consommation</th>
                 <th class="text-center">Pièce jointe</th>
+                <th class="text-center">Commentaires</th>
                 <th class="text-center">Actions</th>
             </tr>
         </thead>
@@ -26,13 +27,18 @@
             <tr class="align-middle">
                 <td class="text-center">{{ livraison.editeur }}</td>
                 <td class="text-center">{{ livraison.numeroLivraison }}</td>
+                <td class="text-center">{{ livraison.temperature }}°</td>
                 <td class="text-center">{{ livraison.dateLivraison ? livraison.dateLivraison|date('d-m-Y') : '' }}</td>
-                <td class="text-center">{{ livraison.dateConsommation ? livraison.dateConsommation|date('d-m-Y') : '' }}</td>
                 {% for pdf in livraison.documents %}
                     <td class="text-center d-flex flex-column p-4">
                         <a href="{{ asset('uploads/' ~ pdf.nomStockage) }}" class="text-decoration-none text-muted livraison-lien">Voir le document</a>
                     </td>
                 {% endfor %}
+                {% if livraison.commentaire %}
+                    <td class="text-center">{{ livraison.commentaire }}</td>
+                {% else %}
+                    <td class="text-center"></td>
+                {% endif %}
                 <td class="text-center">
                     <a href="{{ path('app_livraison_edit', {'id': livraison.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>

@@ -23,12 +23,7 @@ class Livraison
     private ?int $numeroLivraison = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\LessThan(propertyPath: 'dateConsommation', message: 'La date de livraison doit être antérieure à la date de consommation')]
     private ?\DateTimeInterface $dateLivraison = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\GreaterThan(propertyPath: 'dateLivraison', message: 'La date de consommation doit être supérieure à la date de livraison')]
-    private ?\DateTimeInterface $dateConsommation = null;
 
     #[ORM\OneToMany(mappedBy: 'livraison', targetEntity: Document::class, cascade: ["persist"])]
     private Collection $documents;
@@ -37,9 +32,18 @@ class Livraison
     #[ORM\JoinColumn(nullable: false)]
     private ?Editeur $editeur = null;
 
+    #[ORM\Column]
+    #[Assert\NotBlank(message: 'Champ requis')]
+    #[Assert\Range(notInRangeMessage: 'Merci de saisir une valeur entre {{ min}} et {{ max }}', min: -30, max: 10)]
+    private ?float $temperature = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaire = null;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
+        $this->dateLivraison = new \DateTime();
     }
 
     public function getId(): ?int
@@ -121,6 +125,30 @@ class Livraison
     public function setEditeur(?Editeur $editeur): self
     {
         $this->editeur = $editeur;
+
+        return $this;
+    }
+
+    public function getTemperature(): ?float
+    {
+        return $this->temperature;
+    }
+
+    public function setTemperature(float $temperature): self
+    {
+        $this->temperature = $temperature;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }

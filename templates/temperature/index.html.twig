@@ -35,6 +35,7 @@
                 <th class="text-center">Date</th>
                 <th class="text-center">Utilisateur</th>
                 <th class="text-center">Température</th>
+                <th class="text-center">Commentaires</th>
                 <th class="text-center">Actions</th>
             </tr>
         </thead>
@@ -45,7 +46,7 @@
                 <td class="text-center">{{ temperature.dateControle ? temperature.dateControle|date('d-m-Y H:i') : '' }}</td>
                 <td class="text-center">{{ temperature.editeur }}</td>
                 <td class="text-center">{{ temperature.valeur }}°</td>
-
+                <td class="text-center">{{ temperature.commentaire }}</td>
                 <td class="text-center">
                     <a class="text-decoration-none text-light" href="{{ path('app_temperature_edit', {'id': temperature.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                 </td>
