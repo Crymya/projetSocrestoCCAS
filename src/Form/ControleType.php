@@ -23,7 +23,7 @@ class ControleType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'required' => true,
-                'label' => 'Date du contrôle'
+                'label' => 'Date du prélèvement'
             ])
             ->add('documents', FileType::class, [
                 'label' => false,

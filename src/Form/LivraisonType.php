@@ -36,11 +36,6 @@ class LivraisonType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date de livraison'
             ])
-            ->add('dateConsommation', DateType::class, [
-                'html5' => true,
-                'widget' => 'single_text',
-                'label' => 'Date de consommation'
-            ])
             ->add('documents', FileType::class, [
                 'label' => false,
                 'multiple' => true,

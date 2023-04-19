@@ -41,7 +41,7 @@ class EtiquetteType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'required' => true,
-                'label' => 'Date du jour utilisé'
+                'label' => 'Date d\'ouverture'
             ])
             ->add('dlc', DateType::class, [
                 'html5' => true,
