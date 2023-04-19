@@ -38,7 +38,7 @@
                     {% endif %}
                     {% for image in etiquette.documents %}
                         <td class="d-flex flex-column">
-                            <img src="{{ asset('uploads/' ~ image.nomStockage) }}" alt="Miniature" width="200">
+                            <a href="{{ asset('uploads/' ~ image.nomStockage) }}"><img src="{{ asset('uploads/' ~ image.nomStockage) }}" alt="Miniature" width="200"></a>
                         </td>
                     {% endfor %}
                 </tr>

@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Type;
 
 class TemperatureType extends AbstractType
 {
@@ -28,7 +29,8 @@ class TemperatureType extends AbstractType
             ])
             ->add('temp1', IntegerType::class, [
                 'label' => 'Température',
-                'required' => true
+                'required' => true,
+                'constraints' => new Type(['type' => 'numeric'])
             ])
             ->add('temp2', IntegerType::class, [
                 'label' => 'Température',
