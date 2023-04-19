@@ -6,7 +6,6 @@ use App\Entity\TacheRealisee;
 use App\Entity\Travail;
 use App\Entity\TypePeriode;
 use App\Entity\Zone;
-use App\Form\Travail1Type;
 use App\Form\TravailType;
 use App\Repository\TachePrevueRepository;
 use App\Repository\TacheRealiseeRepository;
