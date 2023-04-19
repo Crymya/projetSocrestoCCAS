@@ -29,7 +29,7 @@ class TacheFixtures extends Fixture
         $this->addReference('tachequocp3', $tache27);
 
         $tache3 = new Tache();
-        $tache3->setLibelle('Poignet de porte');
+        $tache3->setLibelle('Poignée de porte');
         $manager->persist($tache3);
         $this->addReference('tachequocp4', $tache3);
 
