@@ -8,6 +8,9 @@ use App\Tools\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Type;
@@ -27,22 +30,25 @@ class TemperatureType extends AbstractType
                         ->setParameter('actif', true);
                 }
             ])
-            ->add('temp1', IntegerType::class, [
+            ->add('temp1', NumberType::class, [
                 'label' => 'Température',
                 'required' => true,
-                'constraints' => new Type(['type' => 'numeric'])
+                'constraints' => new Type(['type' => 'numeric']),
             ])
-            ->add('temp2', IntegerType::class, [
+            ->add('temp2', NumberType::class, [
                 'label' => 'Température',
                 'required' => true
             ])
-            ->add('temp3', IntegerType::class, [
+            ->add('temp3', NumberType::class, [
                 'label' => 'Température',
                 'required' => true
             ])
-            ->add('temp4', IntegerType::class, [
+            ->add('temp4', NumberType::class, [
                 'label' => 'Température',
                 'required' => true
+            ])
+            ->add('commentaire', TextareaType::class, [
+                'label' => 'Commentaires'
             ])
         ;
     }

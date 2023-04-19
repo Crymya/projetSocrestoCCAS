@@ -32,6 +32,10 @@ class Temperature
     #[ORM\JoinColumn(nullable: false)]
     private ?Editeur $editeur = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Blank]
+    private ?string $commentaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,6 +85,18 @@ class Temperature
     public function setEditeur(?Editeur $editeur): self
     {
         $this->editeur = $editeur;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }
