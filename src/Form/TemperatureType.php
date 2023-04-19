@@ -48,7 +48,8 @@ class TemperatureType extends AbstractType
                 'required' => true
             ])
             ->add('commentaire', TextareaType::class, [
-                'label' => 'Commentaires'
+                'label' => 'Commentaires',
+                'required' => false
             ])
         ;
     }

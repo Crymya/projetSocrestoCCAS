@@ -84,6 +84,14 @@ class TemperatureController extends AbstractController
 
             $entityManager->flush();
 
+            if ($temp1->getValeur() > $materiel1->getTempMax()
+                or $temp2->getValeur() > $materiel2->getTempMax()
+                or $temp3->getValeur() < $materiel3->getTempMax()
+                or $temp4->getValeur() < $materiel4->getTempMax())
+            {
+                $this->addFlash('warning', 'Attention le seuil de température dépasse les limites de l\'appareil !');
+            }
+
             $this->addFlash('success', 'Températures enregistrées avec succès !');
             return $this->redirectToRoute('app_temperature_new', [], Response::HTTP_SEE_OTHER);
         }
