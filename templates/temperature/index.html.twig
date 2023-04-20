@@ -25,7 +25,10 @@
     </div>
     {% if temperatures | length > 5 %}
         <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
-        <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+        <a class="text-decoration-none text-light me-2" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+        <a class="text-decoration-none text-light" href="{{ path('app_temperature_stats', {'id': 25}) }}"><button type="button" class="btn btn-primary">Statistiques</button></a>
+        {% else %}
+            <a class="text-decoration-none text-light" href="{{ path('app_temperature_stats', {'id': 25}) }}"><button type="button" class="btn btn-primary">Statistiques</button></a>
     {% endif %}
 
     <table class="table table-striped mt-3">
@@ -66,5 +69,7 @@
 
 
     <a class="text-decoration-none text-light me-2" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
-    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    <a class="text-decoration-none text-light me-2" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>
+    <a class="text-decoration-none text-light" href="{{ path('app_temperature_stats', {'id': 25}) }}"><button type="button" class="btn btn-primary">Statistiques</button></a>
+
 {% endblock %}
