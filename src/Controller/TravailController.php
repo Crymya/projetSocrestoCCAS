@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/travail')]
 class TravailController extends AbstractController
 {
-    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 3, 'idPeriode' => 4])]
+    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 1/*3*/, 'idPeriode' => 1/*4*/])]
     #[ParamConverter('zone', options: ['mapping' => ['idZone' => 'id']])]
     #[ParamConverter('periode', options: ['mapping' => ['idPeriode' => 'id']])]
     public function pointageTaches(
