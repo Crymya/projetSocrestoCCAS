@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Statistiques | {{ parent() }}{% endblock %}
+
+
+{% block body %}
+    <div>
+        <h2>Températures</h2>
+        <div class="row d-flex flex-wrap mb-5">
+            <div class="col-8">
+                {% for materiel in materiels %}
+                    <a href="{{ path('app_temperature_stats', {'id': materiel.id}) }}" role="button" class="text-decoration-none text-dark mt-4 mb-4 me-2 button-zone justify-items-center" aria-pressed="true">{{ materiel.nom }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="mt-5">
+        <a class="text-decoration-none text-light" href="{{ path('app_temperature_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ dataDate | raw }},
+                datasets: [{
+                    label: 'Températures',
+                    data: {{ dataValeur | raw }},
+                    borderWidth: 1,
+                    cubicInterpolationMode: 'monotone'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display:false
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"
+            integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer">
+
+    </script>
+{% endblock %}
+

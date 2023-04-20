@@ -79,4 +79,19 @@ class TemperatureRepository extends ServiceEntityRepository
 
         return $paginator;
     }
+
+    public function findByMateriel(int $id)
+    {
+        $qb = $this
+            ->createQueryBuilder('t')
+            ->select('t.valeur', 't.dateControle')
+            ->innerJoin('t.materiel', 'm')
+            ->andWhere('m.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('t.dateControle', 'ASC')
+            ;
+
+
+        return $qb->getQuery()->getResult();
+    }
 }

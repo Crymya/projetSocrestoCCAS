@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
+use App\Entity\Materiel;
 use App\Entity\Temperature;
 use App\Form\ModificationTemperatureType;
 use App\Form\SearchTemperatureType;
@@ -30,7 +31,7 @@ class TemperatureController extends AbstractController
 
         return $this->render('temperature/index.html.twig', [
             'temperatures' => $temperatureRepository->findSearch($data),
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -124,6 +125,31 @@ class TemperatureController extends AbstractController
         return $this->render('temperature/edit.html.twig', [
             'temperature' => $temperature,
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/stats/{id}', name: 'app_temperature_stats', methods: ['GET'])]
+    public function stats(TemperatureRepository $temperatureRepository, int $id, ?Materiel $materiel, MaterielRepository $materielRepository): Response
+    {
+        $temperatures = $temperatureRepository->findBy(['materiel' => $id], ['dateControle' => 'ASC']);
+
+        $materiels = $materielRepository->findAll();
+
+        $dataDate = [];
+        $dataValeur = [];
+
+        foreach ($temperatures as $temperature)
+        {
+            $dataDate[] = $temperature->getDateControle()->format('d-m-Y');
+            $dataValeur[] = $temperature->getValeur();
+        }
+
+
+        return $this->render('temperature/stats.html.twig', [
+            'dataDate' => json_encode($dataDate),
+            'dataValeur' => json_encode($dataValeur),
+            'id' => $id,
+            'materiels' => $materiels
         ]);
     }
 
