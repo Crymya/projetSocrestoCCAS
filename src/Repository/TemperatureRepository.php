@@ -91,6 +91,9 @@ class TemperatureRepository extends ServiceEntityRepository
             ->orderBy('t.dateControle', 'ASC')
             ;
 
+        $query = $qb->getQuery();
+        $query->setMaxResults(62);
+
 
         return $qb->getQuery()->getResult();
     }
