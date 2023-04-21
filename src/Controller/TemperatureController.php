@@ -138,6 +138,7 @@ class TemperatureController extends AbstractController
         $dataDate = [];
         $dataValeur = [];
 
+
         foreach ($temperatures as $temperature)
         {
             $dataDate[] = $temperature->getDateControle()->format('d-m-Y');

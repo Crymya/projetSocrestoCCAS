@@ -100,4 +100,9 @@ class Temperature
 
         return $this;
     }
+
+    public function getMonth(): string
+    {
+        return $this->dateControle->format('m');
+    }
 }

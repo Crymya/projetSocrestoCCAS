@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Data\SearchData;
+use App\Entity\Materiel;
 use App\Entity\Temperature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -80,9 +81,22 @@ class TemperatureRepository extends ServiceEntityRepository
         return $paginator;
     }
 
-    public function findByMateriel(int $id)
+    public function findByMonthAndMateriel(Materiel $materiel, \DateTimeInterface $date)
     {
-        $qb = $this
+        $startDate = (clone $date)->modify('first day of this month');
+        $endDate = (clone$date)->modify('last day of this month');
+
+        return $this->createQueryBuilder('t')
+            ->where('t.materiel = :materiel')
+            ->andWhere('t.dateControle BETWEEN :start_date AND :end_date')
+            ->setParameter('materiel', $materiel)
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate)
+            ->orderBy('t.dateControle', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        /*$qb = $this
             ->createQueryBuilder('t')
             ->select('t.valeur', 't.dateControle')
             ->innerJoin('t.materiel', 'm')
@@ -95,6 +109,6 @@ class TemperatureRepository extends ServiceEntityRepository
         $query->setMaxResults(62);
 
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getResult();*/
     }
 }
