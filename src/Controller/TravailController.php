@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/travail')]
 class TravailController extends AbstractController
 {
-    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 1/*3*/, 'idPeriode' => 1/*4*/])]
+    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => /*1*/3, 'idPeriode' => /*1*/4])]
     #[ParamConverter('zone', options: ['mapping' => ['idZone' => 'id']])]
     #[ParamConverter('periode', options: ['mapping' => ['idPeriode' => 'id']])]
     public function pointageTaches(
@@ -45,18 +45,18 @@ class TravailController extends AbstractController
         }
 
         if ($periode->getLibelle() == 'Taches quotidiennes') {
-            $dateDebut = new \DateTime();
-            $dateFin = new \DateTime();
+            $dateDebut = new \DateTime('today');
+            $dateFin = new \DateTime('today');
         }
 
         if (($periode->getLibelle() == 'Taches hebdomadaire')) {
-            $dateDebut = new \DateTime();
+            $dateDebut = new \DateTime('today');
             $clone = clone $dateDebut;
             $dateFin = $clone->modify('next week');
         }
 
         if (($periode->getLibelle() == 'Taches mensuelles')) {
-            $dateDebut = new \DateTime();
+            $dateDebut = new \DateTime('today');
             $clone = clone $dateDebut;
             $dateFin = $clone->modify('last day of this month');
         }
