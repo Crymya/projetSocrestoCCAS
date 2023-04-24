@@ -1,18 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-start">
 
     <a class="navbar-brand ms-3" href="{{ path('main_home') }}">
         <img src="{{ asset('img/logoCCAS.png') }}" alt="Logo du site" width="auto" height="30" >
     </a>
-
     <div>
         <h1 class="justify-content-center fs-5 mb-0 text-secondary font-italic"> SOCRESTO</h1>
     </div>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="{{ path('main_home') }}"> <span>Accueil</span></a>
+    <div class="nav-left ms-auto">
+        <div class="navbar-nav d-flex flex-row pe-sm-3">
+            <a class="nav-item nav-link active pe-sm-3" href="{{ path('main_home') }}"> <span>Accueil</span></a>
             {% if (app.user) and is_granted("ROLE_ADMIN") %}
-                <a class="nav-item nav-link active" href="{{ path('admin') }}"> <span>Administration</span></a>
+                <a class="nav-item nav-link active pe-sm-3" href="{{ path('admin') }}"> <span>Administration</span></a>
             {% endif %}
             <a class="nav-item nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
         </div>

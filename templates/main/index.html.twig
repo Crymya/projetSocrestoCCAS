@@ -5,15 +5,15 @@
 {% block body %}
     <div class="container mt-5">
         <div class="row">
-            <div class="jumbotron col-lg me-4 jumbo-height rounded">
+            <div class="jumbotron col-lg me-4 mb-sm-4 jumbo-height rounded h-auto">
                 <div class="container d-flex flex-column">
                     <h2 class="title-accueil">Température</h2>
-                    <a class="text-decoration-none text-light" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary mb-2 btn-lg btn-pageaccueil">Prise des températures</button></a>
+                    <a class="text-decoration-none text-light pb-sm-3" href="{{ path('app_temperature_new') }}"><button type="button" class="btn btn-primary mb-2 btn-lg btn-pageaccueil">Prise des températures</button></a>
                 </div>
             </div>
 
 
-            <div class="jumbotron col-lg me-4 jumbo-height rounded">
+            <div class="jumbotron col-lg me-4 mb-sm-4 jumbo-height rounded">
                 <div class="container d-flex flex-column">
                     <h2 class="title-accueil">Traçabilité</h2>
                     <a class="text-decoration-none text-light a-link" href="{{ path('app_livraison_new') }}"><button type="button" class="btn btn-warning mb-4 btn-lg btn-pageaccueil">Contrôle à la réception</button></a>
@@ -22,10 +22,10 @@
                 </div>
             </div>
 
-            <div class="jumbotron col-lg jumbo-height rounded">
+            <div class="jumbotron col-lg mb-sm-4 jumbo-height rounded h-auto">
                 <div class="container d-flex flex-column">
                     <h2 class="title-accueil">Hygiène</h2>
-                    <a class="text-decoration-none text-light" href="{{ path('app_travail') }}"><button type="button" class="btn btn-success mb-2 btn-lg btn-pageaccueil">Plan de nettoyage</button></a>
+                    <a class="text-decoration-none text-light pb-sm-3" href="{{ path('app_travail') }}"><button type="button" class="btn btn-success mb-2 btn-lg btn-pageaccueil">Plan de nettoyage</button></a>
                 </div>
             </div>
         </div>

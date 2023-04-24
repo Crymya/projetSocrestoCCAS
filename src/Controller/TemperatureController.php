@@ -8,12 +8,12 @@ use App\Entity\Temperature;
 use App\Form\ModificationTemperatureType;
 use App\Form\SearchTemperatureType;
 use App\Form\TemperatureType;
-use App\Repository\EditeurRepository;
 use App\Repository\MaterielRepository;
 use App\Repository\TemperatureRepository;
-use App\Tools\Modele;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,6 +36,63 @@ class TemperatureController extends AbstractController
     }
 
     #[Route('/new', name: 'app_temperature_new', methods: ['GET', 'POST'])]
+    public function new(MaterielRepository $materielRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Récupération de tous les matériels enregistrés en BDD
+        $materiels = $materielRepository->findAll();
+
+        // Ini d'un tableau de température vide
+        $temperatures = [];
+
+        // On boucle sur chaque matériel et on créé une instance de température qu'on ajoute au tableau
+        foreach ($materiels as $materiel) {
+            $temperature = new Temperature();
+            $temperature->setMateriel($materiel);
+            $temperatures[] = $temperature;
+        }
+
+        // On créé la collection de température
+        $form = $this->createFormBuilder(['temperatures' => $temperatures])
+            ->add('temperatures', CollectionType::class, [
+                'entry_type' => TemperatureType::class,
+                'allow_add' => false,
+                'allow_delete' => false,
+                'prototype' => true,
+                'by_reference' => false,
+            ])
+            ->getForm();
+
+        // Savoir si c'est la méthode post qui est appellée
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            // On vérifie que le formulaire est conforme
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // On boucle sur les températures et on instancie à la date du jour,on persiste et on flush
+                foreach ($temperatures as $temperature) {
+                    $temperature->setDateControle(new DateTime());
+                    $entityManager->persist($temperature);
+                }
+
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Temperatures enregistrées avec succès.');
+
+                return $this->redirectToRoute('app_temperature_new');
+            }
+        }
+
+        return $this->render('temperature/new.html.twig', [
+            'form' => $form->createView(),
+            'materiels' => $materiels,
+        ]);
+    }
+
+
+    // Version non dynamique
+
+    /*#[Route('/new', name: 'app_temperature_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, MaterielRepository $materielRepository): Response
     {
         $modele = new Modele();
@@ -104,7 +161,7 @@ class TemperatureController extends AbstractController
             'congelateur1' => $congelateur1,
             'congelateur2' => $congelateur2,
         ]);
-    }
+    }*/
 
 
     #[Route('/{id}/edit', name: 'app_temperature_edit', methods: ['GET', 'POST'])]
