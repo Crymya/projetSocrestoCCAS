@@ -26,7 +26,7 @@ class Materiel
     #[Assert\Range(notInRangeMessage: 'Merci de saisir une valeur entre {{ min}} et {{ max }}', min: -30, max: 10)]
     private ?int $tempMax = null;
 
-    #[ORM\OneToMany(mappedBy: 'materiel', targetEntity: Temperature::class, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'materiel', targetEntity: Temperature::class, cascade: ["persist", "remove"])]
     private Collection $temperatures;
 
     public function __construct()
