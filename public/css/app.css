@@ -28,6 +28,12 @@ h2 {
     font-style: italic;
 }
 
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+
 .jumbotron {
     background-color: #f8f9fa;
 }
@@ -91,7 +97,13 @@ li {
     margin-right: 30px;
 }
 
-@media only screen and (min-width: 995px)
-{
+.button-stats {
+    background-color: #93c5fd;
+    width: 180px;
+    padding: 10px;
+    border-radius: 11px;
+}
 
+.button-stats.active {
+    background-color: #2389fc !important;
 }
