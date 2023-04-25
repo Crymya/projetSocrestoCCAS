@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Statistiques | {{ parent() }}{% endblock %}
-
 
 {% block body %}
     <div>
@@ -10,9 +8,20 @@
         <div class="row d-flex flex-wrap mb-5">
             <div class="col-8">
                 {% for materiel in materiels %}
-                    <a href="{{ path('app_temperature_stats', {'id': materiel.id}) }}" role="button" class="text-decoration-none text-dark mt-4 mb-4 me-2 button-zone justify-items-center" aria-pressed="true">{{ materiel.nom }}</a>
+                    <a href="{{ path('app_temperature_stats', {'id': materiel.id, 'month': month}) }}" role="button" class="text-decoration-none text-dark mt-4 mb-4 me-2 button-zone justify-items-center" aria-pressed="true">{{ materiel.nom }}</a>
                 {% endfor %}
             </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4>Températures du mois en cours</h4>
+            <form action="{{ path('app_temperature_stats', {'id': id}) }}" method="get" class="mb-0">
+                <select name="month" onchange="this.form.submit()">
+                    {% for key, value in months %}
+                        {% set selected = month is defined and month == key ? 'selected' : '' %}
+                        <option value="{{ key }}" {{ selected }}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </form>
         </div>
         <canvas id="myChart"></canvas>
     </div>
@@ -21,7 +30,9 @@
         <a class="text-decoration-none text-light" href="{{ path('app_temperature_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
     </div>
 
+{% endblock %}
 
+{% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -46,20 +57,11 @@
                 },
                 plugins: {
                     legend: {
-                        display:false
+                        display: false
                     }
                 }
             }
         });
-    </script>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js"
-            integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer">
-
     </script>
 {% endblock %}
 

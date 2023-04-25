@@ -184,30 +184,45 @@ class TemperatureController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     #[Route('/stats/{id}', name: 'app_temperature_stats', methods: ['GET'])]
-    public function stats(TemperatureRepository $temperatureRepository, int $id, ?Materiel $materiel, MaterielRepository $materielRepository): Response
+    public function stats(Materiel $materiel, Request $request, TemperatureRepository $temperatureRepository, MaterielRepository $materielRepository, int $id): Response
     {
-        $temperatures = $temperatureRepository->findBy(['materiel' => $id], ['dateControle' => 'ASC']);
+        $date = new \DateTime();
+        $month = $request->query->getInt('month', $date->format('m'));
 
+        $months = [
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mai',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Août',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre',
+        ];
+
+        $temperatures = $temperatureRepository->findByMonthAndMateriel($materiel, new \DateTime("2023-$month-01"));
         $materiels = $materielRepository->findAll();
 
         $dataDate = [];
         $dataValeur = [];
 
-
-        foreach ($temperatures as $temperature)
-        {
-            $dataDate[] = $temperature->getDateControle()->format('d-m-Y');
+        foreach ($temperatures as $temperature) {
+            $dataDate[] = $temperature->getDateControle()->format('d/m/Y H:i');
             $dataValeur[] = $temperature->getValeur();
         }
 
-
         return $this->render('temperature/stats.html.twig', [
+            'materiels' => $materiels,
+            'id' => $id,
             'dataDate' => json_encode($dataDate),
             'dataValeur' => json_encode($dataValeur),
-            'id' => $id,
-            'materiels' => $materiels
+            'month' => $month,
+            'months' => $months
         ]);
     }
 

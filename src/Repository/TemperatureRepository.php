@@ -6,6 +6,7 @@ use App\Data\SearchData;
 use App\Entity\Materiel;
 use App\Entity\Temperature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -83,32 +84,15 @@ class TemperatureRepository extends ServiceEntityRepository
 
     public function findByMonthAndMateriel(Materiel $materiel, \DateTimeInterface $date)
     {
-        $startDate = (clone $date)->modify('first day of this month');
-        $endDate = (clone$date)->modify('last day of this month');
+        $month = $date->format('m');
 
-        return $this->createQueryBuilder('t')
-            ->where('t.materiel = :materiel')
-            ->andWhere('t.dateControle BETWEEN :start_date AND :end_date')
+        $qb = $this->createQueryBuilder('t');
+        $qb->where('t.materiel = :materiel')
+            ->andWhere(new Expr\Func('MONTH', ['t.dateControle']) . ' = :month')
             ->setParameter('materiel', $materiel)
-            ->setParameter('start_date', $startDate)
-            ->setParameter('end_date', $endDate)
-            ->orderBy('t.dateControle', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->setParameter('month', $month)
+            ->orderBy('t.dateControle', 'ASC');
 
-        /*$qb = $this
-            ->createQueryBuilder('t')
-            ->select('t.valeur', 't.dateControle')
-            ->innerJoin('t.materiel', 'm')
-            ->andWhere('m.id = :id')
-            ->setParameter('id', $id)
-            ->orderBy('t.dateControle', 'ASC')
-            ;
-
-        $query = $qb->getQuery();
-        $query->setMaxResults(62);
-
-
-        return $qb->getQuery()->getResult();*/
+        return $qb->getQuery()->getResult();
     }
 }
