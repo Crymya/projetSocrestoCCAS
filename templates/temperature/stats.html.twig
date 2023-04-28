@@ -8,7 +8,10 @@
         <div class="row d-flex w-auto mb-5 justify-content-center">
             <div class="col-8 d-flex">
                 {% for materiel in materiels %}
-                    <a href="{{ path('app_temperature_stats', {'id': materiel.id, 'month': month}) }}" role="button" class="text-decoration-none text-dark mt-4 mb-4 me-2 d-flex flex-row button-stats{% if loop.first %} active{% endif %}" aria-pressed="{{ loop.first ? 'true' : 'false' }}">{{ materiel.nom }}</a>
+                    <a href="{{ path('app_temperature_stats', {'id': materiel.id, 'month': month}) }}" role="button"
+                       class="text-decoration-none text-dark mt-4 mb-4 me-2 d-flex flex-row button-stats{% if loop.first %} active{% endif %}"
+                       aria-pressed="{{ loop.first ? 'true' : 'false' }}">{{ materiel.nom }}
+                    </a>
                 {% endfor %}
             </div>
         </div>
@@ -36,25 +39,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Ajoute la classe active au premier lien par défaut
-            $(".button-stats").first().addClass("active");
-
-            // Ajoute la classe active au lien cliqué et supprime la classe active de tous les autres liens
-            $(".button-stats").click(function() {
-                $(".button-stats").removeClass("active");
-                $(this).addClass("active");
-            });
-        });
-
-        const buttons = document.querySelectorAll('.button-stats');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
-
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
@@ -81,8 +65,6 @@
                 }
             }
         });
-
-
     </script>
 {% endblock %}
 

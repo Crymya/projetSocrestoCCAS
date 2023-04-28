@@ -26,35 +26,39 @@ class LivraisonController extends AbstractController
     #[Route('/new', name: 'app_livraison_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Nouvelle instance de livraison et création du formulaire
         $livraison = new Livraison();
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);
-
+        // Submit et validation du formulaire
         if ($form->isSubmitted() && $form->isValid())
         {
+            // On récupère les données de l'entrée 'documents', soit les images
             $documents = $form->get('documents')->getData();
             $size = count($documents);
-
+            // On vérifie qu'il y a bien un document, sinon message d'alerte
             if (!$documents && ($size === 0))
             {
                 $this->addFlash('warning', 'Document obligatoire');
             } else {
+                // Sinon s'il y a bien une image, on boucle dessus, on crée un nom unique
                 if ($documents) {
                     foreach ($documents as $document)
                     {
                         $filename = uniqid() . '.' . $document->guessExtension();
+                        // On bouge le document dans le répertoire définit dans le fichier de config
                         $document->move($this->getParameter('documents_directory'), $filename);
-
+                        // On créé une nouvelle instance de document, on lui affecte le nom
                         $document = new Document();
                         $document->setNomStockage($filename);
+                        // On ajoute le document à la livraison
                         $livraison->addDocument($document);
                     }
                 }
-                dump($livraison);
+                // On persiste et on flush en BDD (que le nom qui est conservé en BDD)
                 $entityManager->persist($livraison);
-                dump($livraison);
                 $entityManager->flush();
-
+                // Message de succès
                 $this->addFlash('success', 'Bon de livraison ajouté avec succès !');
                 return $this->redirectToRoute('app_livraison_new', [], Response::HTTP_SEE_OTHER);
             }
@@ -66,17 +70,10 @@ class LivraisonController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_livraison_show', methods: ['GET'])]
-    public function show(Livraison $livraison): Response
-    {
-        return $this->render('livraison/show.html.twig', [
-            'livraison' => $livraison,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_livraison_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livraison $livraison, LivraisonRepository $livraisonRepository): Response
     {
+        // Code similaire à la création d'un bon de livraison sauf qu'ici on mmodifie la saisie.
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);
 
@@ -93,9 +90,9 @@ class LivraisonController extends AbstractController
                 $document->setNomStockage($filename);
                 $livraison->addDocument($document);
             }
-
+            // On save en BDD
             $livraisonRepository->save($livraison, true);
-
+            // On redirige
             return $this->redirectToRoute('app_livraison_index', [], Response::HTTP_SEE_OTHER);
         }
 
