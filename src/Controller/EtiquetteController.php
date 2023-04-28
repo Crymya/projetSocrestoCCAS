@@ -18,6 +18,7 @@ class EtiquetteController extends AbstractController
     #[Route('/', name: 'app_etiquette_index', methods: ['GET'])]
     public function index(EtiquetteRepository $etiquetteRepository): Response
     {
+        // On récupère l'ensemble des étiquettes (à modifier et ne récupérer qu'un certain nombre et faire une recherche)
         return $this->render('etiquette/index.html.twig', [
             'etiquettes' => $etiquetteRepository->findAll(),
         ]);
@@ -26,37 +27,44 @@ class EtiquetteController extends AbstractController
     #[Route('/new', name: 'app_etiquette_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Création de l'instance d'une étiquette
         $etiquette = new Etiquette();
+        // Création du formulaire
         $form = $this->createForm(EtiquetteType::class, $etiquette);
         $form->handleRequest($request);
-
+        // Si formulaire est soumit et valide
         if ($form->isSubmitted() && $form->isValid())
         {
+            // On récupère les infos  de 'documents' donc les images
             $documents = $form->get('documents')->getData();
             $size = count($documents);
-
+            // On vérifie qu'il y a un document (obligatoire
             if (!$documents && ($size === 0))
             {
                 $this->addFlash('warning', 'Photo obligatoire');
             } else {
                 if ($documents) {
+                    // S'il y a un doc, boucle dessus
                     foreach ($documents as $document)
                     {
+                        // On lui donne un nom unique
                         $filename = uniqid() . '.' . $document->guessExtension();
+                        // On le migre dans le répertoire définit dans dans fichier de config
                         $document->move($this->getParameter('documents_directory'), $filename);
-
+                        // On créé une instance de document, on lui set son nom
                         $document = new Document();
                         $document->setNomStockage($filename);
+                        // On l'ajout à l'instance d'étiquette
                         $etiquette->addDocument($document);
                     }
                 }
+                // Persist et flush de l'étiquette
                 $entityManager->persist($etiquette);
                 $entityManager->flush();
-
+                // Message de réussite et redirection
                 $this->addFlash('success', 'Etiquette ajoutée avec succès !');
                 return $this->redirectToRoute('app_etiquette_new', [], Response::HTTP_SEE_OTHER);
             }
-
         }
 
         return $this->render('etiquette/new.html.twig', [
@@ -65,6 +73,9 @@ class EtiquetteController extends AbstractController
         ]);
     }
 
+    /*
+     * Détail sur une étiquette
+     */
     #[Route('/{id}', name: 'app_etiquette_show', methods: ['GET'])]
     public function show(Etiquette $etiquette): Response
     {
@@ -73,6 +84,10 @@ class EtiquetteController extends AbstractController
         ]);
     }
 
+    /*
+     * Modification d'une étiquette
+     * Traitement similaire à la création, on utilise méthode save du repository pour la flush en bdd
+     */
     #[Route('/{id}/edit', name: 'app_etiquette_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Etiquette $etiquette, EtiquetteRepository $etiquetteRepository): Response
     {

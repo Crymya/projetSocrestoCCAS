@@ -39,45 +39,6 @@ class TemperatureType extends AbstractType
         ;
     }
 
-    // Version non dynamique
-
-    /*public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('editeur', EntityType::class, [
-                'label' => 'Utilisateur',
-                'class' => Editeur::class,
-                'placeholder' => '-- Saisir un utilisateur --',
-                'query_builder' => function (EditeurRepository $editeurRepository) {
-                    return $editeurRepository->createQueryBuilder('er')
-                        ->where('er.actif = :actif')
-                        ->setParameter('actif', true);
-                }
-            ])
-            ->add('temp1', NumberType::class, [
-                'label' => 'Température',
-                'required' => true,
-                'constraints' => new Type(['type' => 'numeric']),
-            ])
-            ->add('temp2', NumberType::class, [
-                'label' => 'Température',
-                'required' => true
-            ])
-            ->add('temp3', NumberType::class, [
-                'label' => 'Température',
-                'required' => true
-            ])
-            ->add('temp4', NumberType::class, [
-                'label' => 'Température',
-                'required' => true
-            ])
-            ->add('commentaire', TextareaType::class, [
-                'label' => 'Commentaires',
-                'required' => false
-            ])
-        ;
-    }*/
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

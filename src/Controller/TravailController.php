@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/travail')]
 class TravailController extends AbstractController
 {
-    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => /*1*/3, 'idPeriode' => /*1*/4])]
+    #[Route('/{idZone}/{idPeriode}', name: 'app_travail', requirements: ['idZone' => '\d+', 'idPeriode' => '\d+'], defaults: ['idZone' => 1/*3*/, 'idPeriode' => 1/*4*/])]
     #[ParamConverter('zone', options: ['mapping' => ['idZone' => 'id']])]
     #[ParamConverter('periode', options: ['mapping' => ['idPeriode' => 'id']])]
     public function pointageTaches(
@@ -34,16 +34,18 @@ class TravailController extends AbstractController
         ZoneRepository $zoneRepository
     ): Response
     {
+        // On récupère toutes les périodes
         $toutesPeriodes = $typePeriodeRepository->findAll();
+        //On récupère toutes les zones
         $toutesZones = $zoneRepository->findAll();
-
+        // On vérifie si la zone existe et si la période existe, sinon on lève une exception
         if (!$zone) {
             throw $this->createNotFoundException('Zone inconnue');
         }
         if (!$periode) {
             throw $this->createNotFoundException('Periode inconnue');
         }
-
+        // Vérification des périodes en fonction du libellé
         if ($periode->getLibelle() == 'Taches quotidiennes') {
             $dateDebut = new \DateTime('today');
             $dateFin = new \DateTime('today');
@@ -60,9 +62,9 @@ class TravailController extends AbstractController
             $clone = clone $dateDebut;
             $dateFin = $clone->modify('last day of this month');
         }
-
+        // On récupère un travail en fonction de la zone, de la période, date début et date fin
         $travail = $travailRepository->findOneBy(['zone' => $zone, 'periode' => $periode, 'dateDebut' => $dateDebut, 'dateFin' => $dateFin]);
-
+        // Si elle n'existe pas on fait une nouvelle instance
         if (!$travail)
         {
             $travail = new Travail();
@@ -70,31 +72,30 @@ class TravailController extends AbstractController
             $travail->setPeriode($periode);
             $travail->setDateDebut($dateDebut);
             $travail->setDateFin($dateFin);
-
+            // On récupère les tâches qui sont prévues en fonction de la zone et de la période
             $tachesPrevues = $tachePrevueRepository->getTaches($zone, $periode);
 
-
+            // On boucle dessus et on instancie une tache réalisée en lui affectant la tache
             foreach ($tachesPrevues as $tachesPrevue)
             {
                 $tacheRealisee = new TacheRealisee();
                 $tacheRealisee->setTache($tachesPrevue->getTache());
                 $travail->addTacheRealisee($tacheRealisee);
             }
-
+            // Persist et flush le travail
             $travailRepository->add($travail, true);
         }
-
+        //On créé le formulaire
         $form = $this->createForm(TravailType::class, $travail);
         $form->handleRequest($request);
 
-
+        // Vérification et validation du formulaire
         if ($form->isSubmitted() && $form->isValid())
         {
             $travailRepository->add($travail, true);
 
             $this->addFlash('success', 'Tâche(s) enregistrée(s) avec succès !');
         }
-
 
         return $this->render('travail/pointage.html.twig', [
             'form' => $form->createView(),
@@ -109,63 +110,8 @@ class TravailController extends AbstractController
     public function list(TacheRealiseeRepository $tacheRealiseeRepository): Response
     {
         return $this->render('travail/list.html.twig', [
+            // On récupère que les tâches qui ont été réalisées
             'taches' => $tacheRealiseeRepository->findBy(['realisee' => true]),
         ]);
     }
-
-
-    /*#[Route('/new', name: 'app_travail_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TravailRepository $travailRepository): Response
-    {
-        $travail = new Travail();
-        $form = $this->createForm(Travail1Type::class, $travail);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $travailRepository->save($travail, true);
-
-            return $this->redirectToRoute('app_travail_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('travail/new.html.twig', [
-            'travail' => $travail,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_travail_show', methods: ['GET'])]
-    public function show(Travail $travail): Response
-    {
-        return $this->render('travail/show.html.twig', [
-            'travail' => $travail,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_travail_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Travail $travail, TravailRepository $travailRepository): Response
-    {
-        $form = $this->createForm(Travail1Type::class, $travail);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $travailRepository->save($travail, true);
-
-            return $this->redirectToRoute('app_travail_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('travail/edit.html.twig', [
-            'travail' => $travail,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_travail_delete', methods: ['POST'])]
-    public function delete(Request $request, Travail $travail, TravailRepository $travailRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$travail->getId(), $request->request->get('_token'))) {
-            $travailRepository->remove($travail, true);
-        }
-
-        return $this->redirectToRoute('app_travail_index', [], Response::HTTP_SEE_OTHER);
-    }*/
 }

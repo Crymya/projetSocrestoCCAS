@@ -24,6 +24,7 @@ class TemperatureController extends AbstractController
     #[Route('/', name: 'app_temperature_index', methods: ['GET'])]
     public function index(Request $request,TemperatureRepository $temperatureRepository): Response
     {
+        // partie recherche selon le matériel, date début et date de fin
         $data = new SearchData();
         $form = $this->createForm(SearchTemperatureType::class, $data);
         $form->handleRequest($request);
@@ -94,15 +95,19 @@ class TemperatureController extends AbstractController
     #[Route('/{id}/edit', name: 'app_temperature_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, int $id, TemperatureRepository $temperatureRepository): Response
     {
+        // On récupère l'id de la température concernée
         $temperature = $temperatureRepository->find($id);
+        // On créé le formulaire de modification
         $form = $this->createForm(ModificationTemperatureType::class, $temperature);
+        // On récupère les élements de la request
         $form->handleRequest($request);
-
+        // Actions si validation du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            // On sauvegarde les modifications de la température
             $temperatureRepository->save($temperature, true);
-
+            // Message flash de réussite
             $this->addFlash('success', 'Température modifiée avec succès !');
-
+            // Retour sur la page relevé des températures
             return $this->redirectToRoute('app_temperature_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -112,11 +117,13 @@ class TemperatureController extends AbstractController
         ]);
     }
     #[Route('/stats/{id}', name: 'app_temperature_stats', methods: ['GET'])]
-    public function stats(Materiel $materiel, Request $request, TemperatureRepository $temperatureRepository, MaterielRepository $materielRepository, int $id): Response
+    public function stats(Materiel $materiel, Request $request, TemperatureRepository $temperatureRepository,
+                          MaterielRepository $materielRepository, int $id): Response
     {
+        // On récupère le mois en cours via la date du jour 'm'
         $date = new \DateTime();
         $month = $request->query->getInt('month', $date->format('m'));
-
+        // On liste tous les mois pour pouvoir les afficher et les filtrer dans le twig
         $months = [
             '01' => 'Janvier',
             '02' => 'Février',
@@ -131,13 +138,14 @@ class TemperatureController extends AbstractController
             '11' => 'Novembre',
             '12' => 'Décembre',
         ];
-
+        // On recherche toutes les températures en fonction du matériel et du mois
         $temperatures = $temperatureRepository->findByMonthAndMateriel($materiel, new \DateTime("2023-$month-01"));
+        // On récupère tous les matériels en BDD
         $materiels = $materielRepository->findAll();
-
+        // Initialisation de deux tableaux vide pour récupérer les datas avant de les passer à Twig
         $dataDate = [];
         $dataValeur = [];
-
+        // On boucle sur les températures récupérées plus haut et on les ajoute dans les tableaux
         foreach ($temperatures as $temperature) {
             $dataDate[] = $temperature->getDateControle()->format('d/m/Y H:i');
             $dataValeur[] = $temperature->getValeur();
