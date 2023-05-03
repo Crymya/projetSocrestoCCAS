@@ -26,7 +26,7 @@
                 <select name="month">
                     {% for key, value in months %}
                         {% set selected = month is defined and month == key ? 'selected' : '' %}
-                        <option value="{{ key }}" {{ selected }}>{{ value }}</option>
+                        <option value="{{ key }}" {{ selected }}>{{ value }} {{ year }}</option>
                     {% endfor %}
                 </select>
             </form>
