@@ -9,6 +9,7 @@ use App\Tools\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,7 +29,7 @@ class TemperatureType extends AbstractType
                         ->setParameter('actif', true);
                 }
             ])
-            ->add('valeur', NumberType::class, [
+            ->add('valeur', RangeType::class, [
                 'label' => 'Température',
                 'required' => true
             ])
