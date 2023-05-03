@@ -19,7 +19,16 @@
                     {% for temperatureForm in form.temperatures %}
                         {% if temperatureForm.vars.value.materiel.id == materiel.id %}
                             {{ form_row(temperatureForm.editeur) }}
-                            {{ form_row(temperatureForm.valeur) }}
+
+                            <div>
+                                <label for="{{ temperatureForm.valeur.vars.id }}">Température :</label>
+                                {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '-30', 'max': '10', 'step': '0.5'}}) }}
+                            </div>
+                            <div>
+                                <span id="{{ temperatureForm.valeur.vars.id }}_resultat"></span>
+                            </div>
+
+
                             {{ form_row(temperatureForm.commentaire) }}
                         {% endif %}
                     {% endfor %}
@@ -53,5 +62,22 @@
                 $('select[id$="_editeur"]').val(selectedValue);
             });
         });
+
+        /*function afficherValeur() {
+            let inputValeur = document.querySelectorAll('input[id$="_valeur"]');
+            let resultat = "";
+            for (let i = 0; i < inputValeur.length; i++) {
+                resultat += inputValeur[i].value + " ";
+            }
+            document.getElementById('resultat').textContent = resultat;
+        }*/
+
+        function afficherValeur(id) {
+            let inputValeur = document.getElementById(id);
+            let resultat = inputValeur.value;
+            let resultatDiv = document.getElementById(id + "_resultat");
+            resultatDiv.textContent = resultat;
+        }
+
     </script>
 {% endblock %}
