@@ -123,6 +123,7 @@ class TemperatureController extends AbstractController
         // On récupère le mois en cours via la date du jour 'm'
         $date = new \DateTime();
         $month = $request->query->getInt('month', $date->format('m'));
+        $year = $request->query->getInt('year', $date->format('Y'));
         // On liste tous les mois pour pouvoir les afficher et les filtrer dans le twig
         $months = [
             '01' => 'Janvier',
@@ -157,7 +158,8 @@ class TemperatureController extends AbstractController
             'dataDate' => json_encode($dataDate),
             'dataValeur' => json_encode($dataValeur),
             'month' => $month,
-            'months' => $months
+            'months' => $months,
+            'year' => $year
         ]);
     }
 
