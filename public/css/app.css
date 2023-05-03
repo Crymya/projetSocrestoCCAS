@@ -98,12 +98,14 @@ li {
 }
 
 .button-stats {
+    display: inline-block;
     background-color: #93c5fd;
     width: 180px;
     padding: 10px;
     border-radius: 11px;
 }
 
-.button-stats.active {
-    background-color: #2389fc !important;
+.btn-radio.active {
+    background-color: #007bff;
+    color: #fff;
 }

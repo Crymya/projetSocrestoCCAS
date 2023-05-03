@@ -7,18 +7,23 @@
         <h2>Températures</h2>
         <div class="row d-flex w-auto mb-5 justify-content-center">
             <div class="col-8 d-flex">
-                {% for materiel in materiels %}
-                    <a href="{{ path('app_temperature_stats', {'id': materiel.id, 'month': month}) }}" role="button"
-                       class="text-decoration-none text-dark mt-4 mb-4 me-2 d-flex flex-row button-stats{% if loop.first %} active{% endif %}"
-                       aria-pressed="{{ loop.first ? 'true' : 'false' }}">{{ materiel.nom }}
-                    </a>
-                {% endfor %}
+                <form id="materiel-form">
+                    {% for materiel in materiels %}
+                        <div class="form-check button-stats">
+                            <input type="radio" id="{{ materiel.id }}" name="id" value="{{ materiel.id }}"
+                                   {% if materiel.id == id %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ materiel.id }}">
+                                {{ materiel.nom }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </form>
             </div>
         </div>
         <div class="d-flex justify-content-center mb-4">
             <h3>Températures du mois :</h3>
-            <form action="{{ path('app_temperature_stats', {'id': id}) }}" method="get" class="mb-0">
-                <select name="month" onchange="this.form.submit()">
+            <form id="month-form" method="get">
+                <select name="month">
                     {% for key, value in months %}
                         {% set selected = month is defined and month == key ? 'selected' : '' %}
                         <option value="{{ key }}" {{ selected }}>{{ value }}</option>
@@ -30,15 +35,39 @@
     </div>
 
     <div class="mt-5">
-        <a class="text-decoration-none text-light" href="{{ path('app_temperature_index') }}"><button type="button" class="btn btn-primary">Retour</button></a>
+        <button id="submit-form" type="button" class="btn btn-primary">Valider</button>
+        <a class="text-decoration-none text-light" href="{{ path('app_temperature_index') }}"><button type="button" class="btn btn-secondary">Retour</button></a>
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        const materielForm = document.getElementById('materiel-form');
+        const monthForm = document.getElementById('month-form');
+        const submitBtn = document.getElementById('submit-form');
+
+        const radioButtons = document.querySelectorAll('.btn-radio');
+        radioButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Supprimer la classe "active" de tous les boutons radio
+                radioButtons.forEach(btn => btn.classList.remove('active'));
+                // Ajouter la classe "active" au bouton cliqué
+                this.classList.add('active');
+            });
+        });
+
+        submitBtn.addEventListener('click', function() {
+            const selectedMateriel = document.querySelector('input[name="id"]:checked').value;
+            const selectedMonth = document.querySelector('select[name="month"]').value;
+            const url = "{{ path('app_temperature_stats', {'id': ':id', 'month': ':month'}) }}";
+            const newUrl = url.replace(':id', selectedMateriel).replace(':month', selectedMonth);
+            window.location.href = newUrl;
+        });
+
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
