@@ -44,3 +44,14 @@
     </div>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('select[id$="_editeur"]').change(function() {
+                let selectedValue = $(this).val();
+                $('select[id$="_editeur"]').val(selectedValue);
+            });
+        });
+    </script>
+{% endblock %}
