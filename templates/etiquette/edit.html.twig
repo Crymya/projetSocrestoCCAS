@@ -10,3 +10,14 @@
 
     {#{{ include('etiquette/_delete_form.html.twig') }}#}
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        function afficherValeur(id) {
+            let inputValeur = document.getElementById(id);
+            let resultat = inputValeur.value;
+            let resultatDiv = document.getElementById(id + "_resultat");
+            resultatDiv.textContent = resultat;
+        }
+    </script>
+{% endblock %}

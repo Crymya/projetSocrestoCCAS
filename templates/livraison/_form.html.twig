@@ -4,7 +4,11 @@
     <div class="col-6">
         {{ form_row(form.editeur) }}
         {{ form_row(form.numeroLivraison) }}
-        {{ form_row(form.temperature) }}
+        <label for="{{ form.temperature.vars.id }}">Température :</label>
+        {{ form_widget(form.temperature, {'attr': {'onchange': 'afficherValeur("' ~ form.temperature.vars.id ~ '")', 'min': '-30', 'max': '10', 'step': '0.5'}}) }}
+        <div class="mb-3">
+            <span id="{{ form.temperature.vars.id }}_resultat"></span>
+        </div>
         {{ form_row(form.dateLivraison) }}
         {{ form_row(form.documents) }}
         {{ form_row(form.commentaire) }}

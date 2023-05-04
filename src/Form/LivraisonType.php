@@ -10,7 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,7 +33,7 @@ class LivraisonType extends AbstractType
             ->add('numeroLivraison', IntegerType::class, [
                 'label' => 'Numéro de livraison'
             ])
-            ->add('temperature', NumberType::class, [
+            ->add('temperature', RangeType::class, [
                 'label' => 'Température',
                 'required' => true
             ])
@@ -49,7 +49,8 @@ class LivraisonType extends AbstractType
                 'required' => false
             ])
             ->add('commentaire', TextareaType::class, [
-                'label' => 'Commentaires'
+                'label' => 'Commentaires',
+                'required' => false
             ])
         ;
     }
