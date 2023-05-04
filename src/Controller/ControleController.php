@@ -17,13 +17,12 @@ class ControleController extends AbstractController
 {
     /*
      * Listing des contrôles Labocéa
-     * A revoir pour limiter l'affichage
      */
     #[Route('/', name: 'app_controle_index', methods: ['GET'])]
     public function index(ControleRepository $controleRepository): Response
     {
         return $this->render('controle/index.html.twig', [
-            'controles' => $controleRepository->findAll(),
+            'controles' => $controleRepository->findSortedAndPaginated(),
         ]);
     }
 
