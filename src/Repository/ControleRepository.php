@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Controle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +40,16 @@ class ControleRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Controle[] Returns an array of Controle objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findSortedAndPaginated(): Paginator
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.dateControle', 'ASC');
 
-//    public function findOneBySomeField($value): ?Controle
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $qb->getQuery();
+        $query->setMaxResults(5);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
 }
