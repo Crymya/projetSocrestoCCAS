@@ -2,6 +2,16 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+
+.login-form {
+    margin: 0 auto;
+    width: 1000px;
+    padding: 20px;
+    border: 3px solid #456779;
+    border-radius: 10px;
+    box-shadow: 0 0 4px #4a5f73;
+}
+
 .jumbo-height {
     height: 600px;
 }
