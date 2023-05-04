@@ -7,5 +7,15 @@
 
     {{ include('temperature/_form.html.twig', {'button_label': 'Modifier'}) }}
 
+{% endblock %}
 
+{% block javascripts %}
+<script>
+    function afficherValeur(id) {
+        let inputValeur = document.getElementById(id);
+        let resultat = inputValeur.value;
+        let resultatDiv = document.getElementById(id + "_resultat");
+        resultatDiv.textContent = resultat;
+    }
+</script>
 {% endblock %}

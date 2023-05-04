@@ -8,7 +8,7 @@ use App\Repository\EditeurRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,7 +27,7 @@ class ModificationTemperatureType extends AbstractType
                         ->setParameter('actif', true);
                 }
             ])
-            ->add('valeur', IntegerType::class, [
+            ->add('valeur', RangeType::class, [
                 'label' => 'Température',
                 'required' => true
             ])
