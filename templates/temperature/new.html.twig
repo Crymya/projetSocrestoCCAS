@@ -21,13 +21,9 @@
                             {{ form_row(temperatureForm.editeur) }}
 
                             <div>
-                                <label for="{{ temperatureForm.valeur.vars.id }}">Température :</label>
+                                <label for="{{ temperatureForm.valeur.vars.id }}">Température : </label><div id="{{ temperatureForm.valeur.vars.id }}_resultat"></div>
                                 {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '-30', 'max': '10', 'step': '0.5'}}) }}
                             </div>
-                            <div>
-                                <span id="{{ temperatureForm.valeur.vars.id }}_resultat"></span>
-                            </div>
-
 
                             {{ form_row(temperatureForm.commentaire) }}
                         {% endif %}

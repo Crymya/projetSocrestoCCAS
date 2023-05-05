@@ -5,6 +5,21 @@
 {% block body %}
     <h2>Relevé des bons de livraisons</h2>
 
+    <div class="border border-secondary rounded pt-5 ps-5 pe-5 mb-5">
+        <h5 class="mb-3 ">Recherche :</h5>
+        {{ form_start(form) }}
+        <div class="d-flex justify-content-between">
+            <div class="flex-grow-1 d-inline-block">
+                {{ form_row(form.dateDebut) }}
+                {{ form_row(form.dateFin) }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Filtrer</button>
+
+        {{ form_end(form) }}
+    </div>
+
     {% if livraisons|length > 10 %}
         <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary">Retour</button></a>
         <a class="text-decoration-none text-light" href="{{ path('app_livraison_new') }}"><button type="button" class="btn btn-primary">Nouvelle saisie</button></a>

@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Livraison;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +41,30 @@ class LivraisonRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Livraison[] Returns an array of Livraison objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findSearchByDate(SearchData $search): Paginator
+    {
+        $querybuilder = $this
+            ->createQueryBuilder('l')
+            ->orderBy('l.dateLivraison', 'DESC');
 
-//    public function findOneBySomeField($value): ?Livraison
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($search->dateDebut != null)
+        {
+            $querybuilder
+                ->andWhere("l.dateLivraison >= '" . $search->dateDebut->format('Y-m-d') . "'");
+        }
+
+        if ($search->dateFin != null)
+        {
+            $querybuilder
+                ->andWhere("l.dateLivraison <= '" . $search->dateFin->format('Y-m-d') . "'");
+        }
+
+        $query = $querybuilder->getQuery();
+        $query->setMaxResults(20);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
+
 }

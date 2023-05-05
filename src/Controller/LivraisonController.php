@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Document;
 use App\Entity\Livraison;
 use App\Form\LivraisonType;
+use App\Form\SearchDocumentType;
 use App\Repository\LivraisonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class LivraisonController extends AbstractController
 {
     #[Route('/', name: 'app_livraison_index', methods: ['GET'])]
-    public function index(LivraisonRepository $livraisonRepository): Response
+    public function index(Request $request, LivraisonRepository $livraisonRepository): Response
     {
+        // partie recheche selon date début et date fin
+        $data = new SearchData();
+        $form =$this->createForm(SearchDocumentType::class, $data);
+        $form->handleRequest($request);
+
         return $this->render('livraison/index.html.twig', [
-            'livraisons' => $livraisonRepository->findAll(),
+            'livraisons' => $livraisonRepository->findSearchByDate($data),
+            'form' => $form->createView(),
         ]);
     }
 

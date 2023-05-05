@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Etiquette;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +41,29 @@ class EtiquetteRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Etiquette[] Returns an array of Etiquette objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findSearchByDate(SearchData $search): Paginator
+    {
+        $querybuilder = $this
+            ->createQueryBuilder('e')
+            ->orderBy('e.jourUtilise', 'DESC');
 
-//    public function findOneBySomeField($value): ?Etiquette
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($search->dateDebut != null)
+        {
+            $querybuilder
+                ->andWhere("e.jourUtilise >= '" . $search->dateDebut->format('Y-m-d') . "'");
+        }
+
+        if ($search->dateFin != null)
+        {
+            $querybuilder
+                ->andWhere("e.jourUtilise <= '" . $search->dateFin->format('Y-m-d') . "'");
+        }
+
+        $query = $querybuilder->getQuery();
+        $query->setMaxResults(20);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Controle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -47,6 +48,32 @@ class ControleRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         $query->setMaxResults(5);
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
+
+    public function findSearchByDate(SearchData $search): Paginator
+    {
+        $querybuilder = $this
+            ->createQueryBuilder('c')
+            ->orderBy('c.dateControle', 'DESC');
+
+        if ($search->dateDebut != null)
+        {
+            $querybuilder
+                ->andWhere("c.dateControle >= '" . $search->dateDebut->format('Y-m-d') . "'");
+        }
+
+        if ($search->dateFin != null)
+        {
+            $querybuilder
+                ->andWhere("c.dateControle <= '" . $search->dateFin->format('Y-m-d') . "'");
+        }
+
+        $query = $querybuilder->getQuery();
+        $query->setMaxResults(20);
 
         $paginator = new Paginator($query);
 
