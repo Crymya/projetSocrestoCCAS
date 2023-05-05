@@ -78,10 +78,12 @@ class LivraisonController extends AbstractController
         ]);
     }
 
+    /*
+     * Code similaire à la création d'un bon de livraison sauf qu'ici on mmodifie la saisie.
+     */
     #[Route('/{id}/edit', name: 'app_livraison_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Livraison $livraison, LivraisonRepository $livraisonRepository): Response
     {
-        // Code similaire à la création d'un bon de livraison sauf qu'ici on mmodifie la saisie.
         $form = $this->createForm(LivraisonType::class, $livraison);
         $form->handleRequest($request);
 
