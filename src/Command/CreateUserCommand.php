@@ -44,10 +44,10 @@ class CreateUserCommand extends Command
     {
         $helper = $this->getHelper('question');
 
-        $question1 = new Question('Please enter the user\'s first name: ');
-        $question2 = new Question('Please enter the user\'s last name: ');
-        $question3 = new Question('Please enter the user\'s email address: ');
-        $question4 = new Question('Please enter the user\'s password: ');
+        $question1 = new Question('Entrez votre nom: ');
+        $question2 = new Question('Entrez votre prénom: ');
+        $question3 = new Question('Entrez votre email: ');
+        $question4 = new Question('Entrez votre mot de passe: ');
 
         $firstName = $helper->ask($input, $output, $question1);
         $lastName = $helper->ask($input, $output, $question2);
@@ -69,80 +69,4 @@ class CreateUserCommand extends Command
 
         return Command::SUCCESS;
     }
-
-    /*private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-
-        parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('app:create-user')
-            ->setDescription('Creates a new user.')
-            ->setHelp('This command allows you to create a user...')
-        ;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): void
-    {
-        $helper = $this->getHelper('question');
-
-        $question = new Question('Entrez le nom: ');
-        $nom = $helper->ask($input, $output, $question);
-
-        $question = new Question('Entrez le prénom: ');
-        $prenom = $helper->ask($input, $output, $question);
-
-        $question = new Question('Entrez le mail: ');
-        $mail = $helper->ask($input, $output, $question);
-
-        $question = new Question('Entrez le mot de passe: ');
-        $question->setHidden(true);
-        $password = $helper->ask($input, $output, $question);
-
-        $user = new User();
-        $user->setNom($nom);
-        $user->setPrenom($prenom);
-        $user->setPassword($password);
-        $user->setEmail($mail);
-        $user->setActif(true);
-        $user->setRoles(["ROLE_ADMIN"]);
-
-
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        $output->writeln('Utilisateur créé');
-    }*/
-    /*protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-
-        return Command::SUCCESS;
-    }*/
 }
