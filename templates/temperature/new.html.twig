@@ -22,7 +22,11 @@
 
                             <div>
                                 <label for="{{ temperatureForm.valeur.vars.id }}">Température : </label><span id="{{ temperatureForm.valeur.vars.id }}_resultat" class="ms-1"></span>
-                                {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '-30', 'max': '10', 'step': '0.5'}}) }}
+                                {% if materiel.nom starts with 'Frigo' %}
+                                    {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '0', 'max': '10', 'step': '0.5', 'title': 'Min: 0 / Max: 10'}}) }}
+                                {% else %}
+                                    {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '-30', 'max': '-15', 'step': '0.5'}}) }}
+                               {% endif%}
                             </div>
 
                             {{ form_row(temperatureForm.commentaire) }}
@@ -60,10 +64,19 @@
         });
 
         function afficherValeur(id) {
+            // Afficher la valeur du cuurseur en cours
             let inputValeur = document.getElementById(id);
             let resultat = inputValeur.value;
             let resultatDiv = document.getElementById(id + "_resultat");
             resultatDiv.textContent = resultat;
+
+            // Afficher la valeur min
+            let minDiv = document.getElementById(id + "_min");
+            minDiv.textContent = inputValeur.getAttribute("min");
+
+            // Afficher la valeur max
+            let maxDiv = document.getElementById(id + "_max");
+            maxDiv.textContent = inputValeur.getAttribute("max");
         }
 
     </script>
