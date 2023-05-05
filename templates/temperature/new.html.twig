@@ -62,6 +62,15 @@
                 let selectedValue = $(this).val();
                 $('select[id$="_editeur"]').val(selectedValue);
             });
+            $('input[type="range"]').on('input', function() {
+                let id = $(this).attr('id');
+                afficherValeur(id);
+            });
+
+            $('input[type="range"]').each(function() {
+                let id = $(this).attr('id');
+                afficherValeur(id);
+            });
         });
 
         function afficherValeur(id) {
