@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Controle;
 use App\Entity\Document;
 use App\Form\ControleType;
+use App\Form\SearchDocumentType;
 use App\Repository\ControleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +21,16 @@ class ControleController extends AbstractController
      * Listing des contrôles Labocéa
      */
     #[Route('/', name: 'app_controle_index', methods: ['GET'])]
-    public function index(ControleRepository $controleRepository): Response
+    public function index(Request $request, ControleRepository $controleRepository): Response
     {
+        // partie recherche par date
+        $data = new SearchData();
+        $form = $this->createForm(SearchDocumentType::class, $data);
+        $form->handleRequest($request);
+
         return $this->render('controle/index.html.twig', [
-            'controles' => $controleRepository->findSortedAndPaginated(),
+            'controles' => $controleRepository->findSearchByDate($data),
+            'form' => $form->createView()
         ]);
     }
 

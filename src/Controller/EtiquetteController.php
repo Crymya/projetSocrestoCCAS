@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Document;
 use App\Entity\Etiquette;
 use App\Form\EtiquetteType;
+use App\Form\SearchDocumentType;
 use App\Repository\EtiquetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,11 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtiquetteController extends AbstractController
 {
     #[Route('/', name: 'app_etiquette_index', methods: ['GET'])]
-    public function index(EtiquetteRepository $etiquetteRepository): Response
+    public function index(Request $request, EtiquetteRepository $etiquetteRepository): Response
     {
-        // On récupère l'ensemble des étiquettes (à modifier et ne récupérer qu'un certain nombre et faire une recherche)
+        // partie recherche par date
+        $data = new SearchData();
+        $form = $this->createForm(SearchDocumentType::class, $data);
+        $form->handleRequest($request);
+
         return $this->render('etiquette/index.html.twig', [
-            'etiquettes' => $etiquetteRepository->findAll(),
+            'etiquettes' => $etiquetteRepository->findSearchByDate($data),
+            'form' => $form->createView()
         ]);
     }
 
