@@ -48,12 +48,13 @@
                 <td class="text-center">{{ temperature.materiel }}</td>
                 <td class="text-center">{{ temperature.dateControle ? temperature.dateControle|date('d-m-Y H:i') : '' }}</td>
                 <td class="text-center">{{ temperature.editeur }}</td>
-                {% if temperature.valeur == 5 or temperature.valeur == 6 or temperature.valeur == 7
-                    or temperature.valeur == -17 or temperature.valeur == -16 or temperature.valeur == -15 %}
-                <td class="text-center text-bg-warning">{{ temperature.valeur }}°</td>
+
+                {% if temperature.valeur > 5 or (temperature.valeur >= -17 and temperature.valeur <= -1) %}
+                    <td class="text-center text-bg-danger">{{ temperature.valeur }}°</td>
                 {% else %}
                     <td class="text-center">{{ temperature.valeur }}°</td>
                 {% endif %}
+
                 <td class="text-center">{{ temperature.commentaire }}</td>
                 <td class="text-center">
                     <a class="text-decoration-none text-light" href="{{ path('app_temperature_edit', {'id': temperature.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
