@@ -123,3 +123,18 @@ li {
 .card-css {
     width: 260px;
 }
+
+input[type="range"].custom-range::-webkit-slider-thumb::before {
+    content: attr(min);
+    position: absolute;
+    bottom: -1.5em;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+input[type="range"].custom-range::-webkit-slider-thumb::after {
+    content: attr(max);
+    position: absolute;
+    bottom: -1.5em;
+    right: 0;
+}
