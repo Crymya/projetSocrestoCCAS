@@ -11,7 +11,7 @@
     {{ form_start(form) }}
     <div class="d-flex flex-row flex-wrap justify-content-center">
         {% for materiel in materiels %}
-            <div class="card me-3 mb-3">
+            <div class="card me-3 mb-3 card-css">
                 <div class="card-header bg-primary text-light text-center">
                     {{ materiel.nom }}
                 </div>
@@ -21,7 +21,7 @@
                             {{ form_row(temperatureForm.editeur) }}
 
                             <div>
-                                <label for="{{ temperatureForm.valeur.vars.id }}">Température : </label><div id="{{ temperatureForm.valeur.vars.id }}_resultat"></div>
+                                <label for="{{ temperatureForm.valeur.vars.id }}">Température : </label><span id="{{ temperatureForm.valeur.vars.id }}_resultat" class="ms-1"></span>
                                 {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '-30', 'max': '10', 'step': '0.5'}}) }}
                             </div>
 
