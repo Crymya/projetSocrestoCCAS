@@ -46,7 +46,7 @@
                 </div>
                 <div>
                     <a class="text-decoration-none text-light" href="{{ path('main_home') }}"><button type="button" class="btn btn-primary me-2">Annuler</button></a>
-                    <button class="btn bg-primary text-light" name="btnsave" value="save" type="submit">Enregistrer</button>
+                    <button class="btn bg-primary text-light" name="btnsave" value="save" type="submit" disabled>Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -65,12 +65,23 @@
             $('input[type="range"]').on('input', function() {
                 let id = $(this).attr('id');
                 afficherValeur(id);
+                checkFormModified();
             });
 
             $('input[type="range"]').each(function() {
                 let id = $(this).attr('id');
                 afficherValeur(id);
             });
+
+            // Fonction pour vérifier si le formulaire a été modifié
+            function checkFormModified() {
+                // Récupération des champs range
+                const ranges = document.querySelectorAll('input[type="range"]');
+
+                // Vérification que chaque champ range a été modifié
+                const modified = Array.from(ranges).every(range => range.value !== range.defaultValue);
+                submitButton.disabled = !modified;
+            }
         });
 
         function afficherValeur(id) {
@@ -90,3 +101,4 @@
         }
     </script>
 {% endblock %}
+
