@@ -22,6 +22,7 @@
 
                             <div>
                                 <label for="{{ temperatureForm.valeur.vars.id }}">Température : </label><span id="{{ temperatureForm.valeur.vars.id }}_resultat" class="ms-1"></span>
+                                <div> (min : <span id="{{ temperatureForm.valeur.vars.id }}_min"></span>, max : <span id="{{ temperatureForm.valeur.vars.id }}_max"></span>) </div>
                                 {% if materiel.nom starts with 'Frigo' %}
                                     {{ form_widget(temperatureForm.valeur, {'attr': {'onchange': 'afficherValeur("' ~ temperatureForm.valeur.vars.id ~ '")', 'min': '0', 'max': '10', 'step': '0.5', 'title': 'Min: 0 / Max: 10'}}) }}
                                 {% else %}
