@@ -151,7 +151,6 @@ class TemperatureController extends AbstractController
             $dataDate[] = $temperature->getDateControle()->format('d/m/Y H:i');
             $dataValeur[] = $temperature->getValeur();
         }
-
         return $this->render('temperature/stats.html.twig', [
             'materiels' => $materiels,
             'id' => $id,
@@ -162,5 +161,4 @@ class TemperatureController extends AbstractController
             'year' => $year
         ]);
     }
-
 }
